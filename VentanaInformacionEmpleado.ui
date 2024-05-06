@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>VentanaInformacionEmpleado</class>
+ <widget class="QWidget" name="VentanaInformacionEmpleado">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>443</width>
+    <height>314</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Nuevo empleado</string>
+  </property>
+  <layout class="QGridLayout" name="gridLayout">
+   <item row="1" column="0">
+    <widget class="QWidget" name="panelSur" native="true">
+     <layout class="QHBoxLayout" name="horizontalLayout">
+      <item>
+       <widget class="QPushButton" name="pushButton">
+        <property name="text">
+         <string>Guardar</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="botonGuardarEmpleado">
+        <property name="text">
+         <string>Cancelar</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="0" column="0">
+    <widget class="QWidget" name="panelCentro" native="true">
+     <layout class="QFormLayout" name="formLayout_2">
+      <item row="2" column="0">
+       <widget class="QLabel" name="etiquetaNombre">
+        <property name="text">
+         <string>Nombre:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="1">
+       <widget class="QLineEdit" name="campoNombre"/>
+      </item>
+      <item row="3" column="0">
+       <widget class="QLabel" name="etiquetaApellidoPaterno">
+        <property name="text">
+         <string>Apellido paterno:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="1">
+       <widget class="QLineEdit" name="campoApellidoPaterno"/>
+      </item>
+      <item row="4" column="0">
+       <widget class="QLabel" name="etiquetaApellidoMaterno">
+        <property name="text">
+         <string>Apellido materno:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="1">
+       <widget class="QLineEdit" name="campoApellidoMaterno"/>
+      </item>
+      <item row="1" column="1">
+       <widget class="QLineEdit" name="campoNoEmpleado"/>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="etiquetaNoEmpleado">
+        <property name="text">
+         <string>No. de empleado:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="1">
+       <widget class="QTimeEdit" name="tiempoEntrada"/>
+      </item>
+      <item row="5" column="0">
+       <widget class="QLabel" name="etiquetaHoraEntrada">
+        <property name="text">
+         <string>Hora de entrada:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="6" column="0">
+       <widget class="QLabel" name="etiquetaHoraSalida">
+        <property name="text">
+         <string>Hora de salida:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="6" column="1">
+       <widget class="QTimeEdit" name="tiempoSalida"/>
+      </item>
+     </layout>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
