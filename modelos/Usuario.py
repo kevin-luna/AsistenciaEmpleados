@@ -1,16 +1,16 @@
 class Usuario:
-    def __init__(self,nombre,clave_acceso):
+    def __init__(self,nombre,clave):
         self.nombre = nombre
-        self.clave_acceso = clave_acceso
+        self.clave = clave
 
-    def set_nombre(self,nombre):
+    def setNombre(self,nombre):
         self.nombre = nombre
 
-    def get_nombre(self):
+    def getNombre(self):
         return self.nombre
 
-    def set_clave_acceso(self,clave_acceso):
-        self.clave_acceso = clave_acceso
+    def setClave(self,clave):
+        self.clave = clave
 
-    def get_clave_acceso(self):
-        return self.clave_acceso
+    def getClave(self):
+        return self.clave

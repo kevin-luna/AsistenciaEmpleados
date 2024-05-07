@@ -25,7 +25,7 @@ class Empleado:
     def get_apellido_paterno(self):
         return self.apellido_paterno
 
-    def set_apellido_materno(self,apellido_materno)
+    def set_apellido_materno(self,apellido_materno):
         self.apelllido_materno = apellido_materno
 
     def get_apellido_materno(self):
