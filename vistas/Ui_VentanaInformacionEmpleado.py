@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'VentanaInformacionEmpleado.ui'
+# Form implementation generated from reading ui file 'ui/VentanaInformacionEmpleado.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.10
 #
@@ -21,12 +21,12 @@ class Ui_VentanaInformacionEmpleado(object):
         self.panelSur.setObjectName("panelSur")
         self.horizontalLayout = QtWidgets.QHBoxLayout(self.panelSur)
         self.horizontalLayout.setObjectName("horizontalLayout")
-        self.pushButton = QtWidgets.QPushButton(self.panelSur)
-        self.pushButton.setObjectName("pushButton")
-        self.horizontalLayout.addWidget(self.pushButton)
         self.botonGuardarEmpleado = QtWidgets.QPushButton(self.panelSur)
         self.botonGuardarEmpleado.setObjectName("botonGuardarEmpleado")
         self.horizontalLayout.addWidget(self.botonGuardarEmpleado)
+        self.botonCancelar = QtWidgets.QPushButton(self.panelSur)
+        self.botonCancelar.setObjectName("botonCancelar")
+        self.horizontalLayout.addWidget(self.botonCancelar)
         self.gridLayout.addWidget(self.panelSur, 1, 0, 1, 1)
         self.panelCentro = QtWidgets.QWidget(VentanaInformacionEmpleado)
         self.panelCentro.setObjectName("panelCentro")
@@ -76,11 +76,21 @@ class Ui_VentanaInformacionEmpleado(object):
     def retranslateUi(self, VentanaInformacionEmpleado):
         _translate = QtCore.QCoreApplication.translate
         VentanaInformacionEmpleado.setWindowTitle(_translate("VentanaInformacionEmpleado", "Nuevo empleado"))
-        self.pushButton.setText(_translate("VentanaInformacionEmpleado", "Guardar"))
-        self.botonGuardarEmpleado.setText(_translate("VentanaInformacionEmpleado", "Cancelar"))
+        self.botonGuardarEmpleado.setText(_translate("VentanaInformacionEmpleado", "Guardar"))
+        self.botonCancelar.setText(_translate("VentanaInformacionEmpleado", "Cancelar"))
         self.etiquetaNombre.setText(_translate("VentanaInformacionEmpleado", "Nombre:"))
         self.etiquetaApellidoPaterno.setText(_translate("VentanaInformacionEmpleado", "Apellido paterno:"))
         self.etiquetaApellidoMaterno.setText(_translate("VentanaInformacionEmpleado", "Apellido materno:"))
         self.etiquetaNoEmpleado.setText(_translate("VentanaInformacionEmpleado", "No. de empleado:"))
         self.etiquetaHoraEntrada.setText(_translate("VentanaInformacionEmpleado", "Hora de entrada:"))
         self.etiquetaHoraSalida.setText(_translate("VentanaInformacionEmpleado", "Hora de salida:"))
+
+
+if __name__ == "__main__":
+    import sys
+    app = QtWidgets.QApplication(sys.argv)
+    VentanaInformacionEmpleado = QtWidgets.QWidget()
+    ui = Ui_VentanaInformacionEmpleado()
+    ui.setupUi(VentanaInformacionEmpleado)
+    VentanaInformacionEmpleado.show()
+    sys.exit(app.exec_())

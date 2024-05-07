@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'VentanaControlAsistencia.ui'
+# Form implementation generated from reading ui file 'ui/VentanaControlAsistencia.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.10
 #
@@ -12,28 +12,28 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 
 
 class Ui_VentanaControlAsistencia(object):
-    def setupUi(self, Form):
-        Form.setObjectName("Form")
-        Form.resize(456, 344)
-        self.gridLayout = QtWidgets.QGridLayout(Form)
+    def setupUi(self, VentanaControlAsistencia):
+        VentanaControlAsistencia.setObjectName("VentanaControlAsistencia")
+        VentanaControlAsistencia.resize(456, 344)
+        self.gridLayout = QtWidgets.QGridLayout(VentanaControlAsistencia)
         self.gridLayout.setObjectName("gridLayout")
-        self.botonSalir = QtWidgets.QPushButton(Form)
+        self.botonSalir = QtWidgets.QPushButton(VentanaControlAsistencia)
         self.botonSalir.setObjectName("botonSalir")
         self.gridLayout.addWidget(self.botonSalir, 2, 0, 1, 2)
-        self.botonRegistrarLlegada = QtWidgets.QPushButton(Form)
+        self.botonRegistrarLlegada = QtWidgets.QPushButton(VentanaControlAsistencia)
         self.botonRegistrarLlegada.setObjectName("botonRegistrarLlegada")
         self.gridLayout.addWidget(self.botonRegistrarLlegada, 1, 0, 1, 1)
-        self.botonRegistrarSalida = QtWidgets.QPushButton(Form)
+        self.botonRegistrarSalida = QtWidgets.QPushButton(VentanaControlAsistencia)
         self.botonRegistrarSalida.setObjectName("botonRegistrarSalida")
         self.gridLayout.addWidget(self.botonRegistrarSalida, 1, 1, 1, 1)
 
-        self.retranslateUi(Form)
-        QtCore.QMetaObject.connectSlotsByName(Form)
+        self.retranslateUi(VentanaControlAsistencia)
+        QtCore.QMetaObject.connectSlotsByName(VentanaControlAsistencia)
 
-    def retranslateUi(self, Form):
+    def retranslateUi(self, VentanaControlAsistencia):
         _translate = QtCore.QCoreApplication.translate
-        Form.setWindowTitle(_translate("Form", "Control de asistencia"))
-        self.botonSalir.setText(_translate("Form", "Salir"))
-        self.botonRegistrarLlegada.setText(_translate("Form", "Registrar llegada"))
-        self.botonRegistrarSalida.setText(_translate("Form", "Registrar salida"))
+        VentanaControlAsistencia.setWindowTitle(_translate("VentanaControlAsistencia", "JEB - Control de asistencia"))
+        self.botonSalir.setText(_translate("VentanaControlAsistencia", "Salir"))
+        self.botonRegistrarLlegada.setText(_translate("VentanaControlAsistencia", "Registrar llegada"))
+        self.botonRegistrarSalida.setText(_translate("VentanaControlAsistencia", "Registrar salida"))
 

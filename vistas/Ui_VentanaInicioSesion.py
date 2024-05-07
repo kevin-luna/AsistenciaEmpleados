@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'VentanaInicioSesion.ui'
+# Form implementation generated from reading ui file 'ui/VentanaInicioSesion.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.10
 #
@@ -24,6 +24,7 @@ class Ui_VentanaInicioSesion(object):
         self.gridLayout_2 = QtWidgets.QGridLayout(self.panelNorte)
         self.gridLayout_2.setObjectName("gridLayout_2")
         self.campoContrasena = QtWidgets.QLineEdit(self.panelNorte)
+        self.campoContrasena.setEchoMode(QtWidgets.QLineEdit.Password)
         self.campoContrasena.setObjectName("campoContrasena")
         self.gridLayout_2.addWidget(self.campoContrasena, 3, 0, 1, 1)
         self.etiquetaUsuario = QtWidgets.QLabel(self.panelNorte)
@@ -54,7 +55,17 @@ class Ui_VentanaInicioSesion(object):
 
     def retranslateUi(self, VentanaInicioSesion):
         _translate = QtCore.QCoreApplication.translate
-        VentanaInicioSesion.setWindowTitle(_translate("VentanaInicioSesion", "Iniciar sesión"))
+        VentanaInicioSesion.setWindowTitle(_translate("VentanaInicioSesion", "JEB - Iniciar sesión"))
         self.etiquetaUsuario.setText(_translate("VentanaInicioSesion", "Usuario:"))
         self.etiquetaContrasena.setText(_translate("VentanaInicioSesion", "Contraseña:"))
         self.botonIniciarSesion.setText(_translate("VentanaInicioSesion", "Iniciar sesión"))
+
+
+if __name__ == "__main__":
+    import sys
+    app = QtWidgets.QApplication(sys.argv)
+    VentanaInicioSesion = QtWidgets.QWidget()
+    ui = Ui_VentanaInicioSesion()
+    ui.setupUi(VentanaInicioSesion)
+    VentanaInicioSesion.show()
+    sys.exit(app.exec_())

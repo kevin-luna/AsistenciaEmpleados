@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'VentanaAdministrador.ui'
+# Form implementation generated from reading ui file 'ui/VentanaAdministrador.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.10
 #
@@ -90,12 +90,12 @@ class Ui_VentanaAdministrador(object):
         self.gridLayout.addWidget(self.tabVistas, 0, 0, 1, 1)
 
         self.retranslateUi(VentanaAdministrador)
-        self.tabVistas.setCurrentIndex(1)
+        self.tabVistas.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(VentanaAdministrador)
 
     def retranslateUi(self, VentanaAdministrador):
         _translate = QtCore.QCoreApplication.translate
-        VentanaAdministrador.setWindowTitle(_translate("VentanaAdministrador", "Panel de administracion"))
+        VentanaAdministrador.setWindowTitle(_translate("VentanaAdministrador", "JEB - Panel de administracion"))
         item = self.tablaEmpleados.horizontalHeaderItem(0)
         item.setText(_translate("VentanaAdministrador", "No. de empleado"))
         item = self.tablaEmpleados.horizontalHeaderItem(1)
@@ -124,3 +124,13 @@ class Ui_VentanaAdministrador(object):
         item.setText(_translate("VentanaAdministrador", "Retraso"))
         self.botonEliminarRegistro.setText(_translate("VentanaAdministrador", "Eliminar registro"))
         self.tabVistas.setTabText(self.tabVistas.indexOf(self.vistaAsistencias), _translate("VentanaAdministrador", "Asistencias"))
+
+
+if __name__ == "__main__":
+    import sys
+    app = QtWidgets.QApplication(sys.argv)
+    VentanaAdministrador = QtWidgets.QWidget()
+    ui = Ui_VentanaAdministrador()
+    ui.setupUi(VentanaAdministrador)
+    VentanaAdministrador.show()
+    sys.exit(app.exec_())
