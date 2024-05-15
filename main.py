@@ -121,9 +121,10 @@ class RegistroAsistencia:
         return self.retrasado
 
 class Usuario:
-    def __init__(self,nombre,clave):
+    def __init__(self,nombre,clave,admin):
         self.nombre = nombre
         self.clave = clave
+        self.admin = admin
 
     def setNombre(self,nombre):
         self.nombre = nombre
@@ -136,6 +137,12 @@ class Usuario:
 
     def getClave(self):
         return self.clave
+    
+    def getAdmin(self):
+        return self.admin
+    
+    def setAdmin(self,admin):
+        self.admin = admin
 
 app = QApplication(sys.argv)
 ventanaInicioSesion = VentanaInicioSesion()
