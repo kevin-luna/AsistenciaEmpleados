@@ -82,8 +82,10 @@ class Ui_VentanaInformacionEmpleado(object):
         self.etiquetaApellidoPaterno.setText(_translate("VentanaInformacionEmpleado", "Apellido paterno:"))
         self.etiquetaApellidoMaterno.setText(_translate("VentanaInformacionEmpleado", "Apellido materno:"))
         self.etiquetaNoEmpleado.setText(_translate("VentanaInformacionEmpleado", "No. de empleado:"))
+        self.tiempoEntrada.setDisplayFormat(_translate("VentanaInformacionEmpleado", "hh:mm"))
         self.etiquetaHoraEntrada.setText(_translate("VentanaInformacionEmpleado", "Hora de entrada:"))
         self.etiquetaHoraSalida.setText(_translate("VentanaInformacionEmpleado", "Hora de salida:"))
+        self.tiempoSalida.setDisplayFormat(_translate("VentanaInformacionEmpleado", "hh:mm"))
 
 
 if __name__ == "__main__":
