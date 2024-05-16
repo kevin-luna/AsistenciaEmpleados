@@ -1,12 +1,17 @@
 # This Python file uses the following encoding: utf-8
 import sys
+import sqlite3
+
 
 from PyQt5.QtCore import Qt
-from PyQt5.QtWidgets import QApplication, QWidget
+from PyQt5.QtWidgets import QApplication, QWidget, QMessageBox
 from vistas.Ui_VentanaInicioSesion import Ui_VentanaInicioSesion
 from vistas.Ui_VentanaControlAsistencia import Ui_VentanaControlAsistencia
 from vistas.Ui_VentanaAdministrador import Ui_VentanaAdministrador
 from vistas.Ui_VentanaInformacionEmpleado import Ui_VentanaInformacionEmpleado
+from datetime import datetime
+
+conexion = sqlite3.connect('JEB.db')
 
 class VentanaInicioSesion(QWidget):
     def __init__(self, parent=None):
@@ -17,13 +22,51 @@ class VentanaInicioSesion(QWidget):
     def obtenerUsuario(self):
         nombre = self.ui.campoUsuario.text()
         clave_acceso = self.ui.campoContrasena.text()
-        return Usuario(nombre,clave_acceso)
+        return Usuario(nombre,clave_acceso,None)
 
 class VentanaControlAsistencia(QWidget):
     def __init__(self, parent=None):
         super().__init__(parent)
         self.ui = Ui_VentanaControlAsistencia()
         self.ui.setupUi(self)
+        self.numeroEmpleado = None
+        self.nombreEmpleado = None
+        self.ui.botonRegistrarLlegada.clicked.connect(self.registrarEntrada)
+        self.ui.botonRegistrarSalida.clicked.connect(self.registrarSalida)
+
+    def setEmpleado(self,numeroEmpleado,nombreEmpleado):
+        self.numeroEmpleado = int(numeroEmpleado)
+        self.nombreEmpleado = nombreEmpleado
+
+    def registrarEntrada(self):
+        fecha_actual = datetime.now().date()
+        hora_actual = datetime.now().strftime("%H:%M")
+        cursor = conexion.cursor()
+        consulta = f"SELECT numeroEmpleado FROM asistencias WHERE numeroEmpleado={self.numeroEmpleado} AND fecha='{fecha_actual}'"
+        print(consulta)
+        cursor.execute(consulta)
+        registros = cursor.fetchall()
+        if len(registros)>=1:
+            QMessageBox.information(self,"Error al registrar la asistencia","Ya existe un registro de entrada para el día de hoy.")
+        else:
+            cursor.execute(f"INSERT INTO asistencias(numeroEmpleado,nombre,fecha,horaLlegada) VALUES({self.numeroEmpleado},'{self.nombreEmpleado}','{fecha_actual}','{hora_actual}')")
+            conexion.commit()
+            QMessageBox.information(self,"Asistencia registrada","Se registró la hora de entrada.")
+        cursor.close()
+
+    def registrarSalida(self):
+        fecha_actual = datetime.now().date()
+        hora_actual = datetime.now().strftime("%H:%M")
+        cursor = conexion.cursor()
+        cursor.execute(f"SELECT numeroEmpleado FROM asistencias WHERE numeroEmpleado={self.numeroEmpleado} AND fecha='{fecha_actual}'")
+        registros = cursor.fetchall()
+        if len(registros)>=1:
+            cursor.execute(f"UPDATE asistencias SET horaSalida='{hora_actual}'")
+            QMessageBox.information(self,"Salida registrada","Se registró la hora de salida.")
+            conexion.commit()
+        else:
+            QMessageBox.information(self,"Error al registrar la salida","No existe un registro de entrada para el día de hoy.")
+            
 
 class VentanaAdministrador(QWidget):
     def __init__(self,parent=None):
@@ -151,19 +194,22 @@ ventanaControlAsistencia = VentanaControlAsistencia()
 ventanaAdministrador = VentanaAdministrador()
 
 def iniciarSesion(self):
-        print("Hiciste click al boton")
-        usuario = ventanaInicioSesion.obtenerUsuario()
-        nombre = usuario.getNombre()
-        clave = usuario.getClave()
-        if nombre == 'admin' and clave == 'admin':
-            print('Cargando el panel de administrador')
-            ventanaInicioSesion.close()
-            ventanaAdministrador.show()
-
-        elif nombre == 'empleado' and clave == 'empleado':
-            print('Cargando el panel del empleado')
-            ventanaInicioSesion.close()
+    usuario = ventanaInicioSesion.obtenerUsuario()
+    cursor = conexion.cursor()
+    cursor.execute(f"SELECT * FROM administradores WHERE usuario = '{usuario.getNombre()}' and clave = '{usuario.getClave()}'")
+    resultados  = cursor.fetchall()
+    if len(resultados) == 1:
+        ventanaAdministrador.show()
+        ventanaInicioSesion.close()
+    else:
+        cursor.execute(f"SELECT nombre FROM empleados WHERE numeroEmpleado='{usuario.getNombre()}' and clave='{usuario.getClave()}'")
+        resultados = cursor.fetchall()
+        if len(resultados)==1:
+            ventanaControlAsistencia.setEmpleado(usuario.getNombre(),resultados[0][0])
             ventanaControlAsistencia.show()
+            ventanaInicioSesion.close()
+    cursor.close()
+
 
 def agregarEmpleado():
     ventanaInformacionEmpleado.show()
