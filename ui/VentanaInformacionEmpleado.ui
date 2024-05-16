@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>443</width>
-    <height>314</height>
+    <height>223</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -37,6 +37,16 @@
    <item row="0" column="0">
     <widget class="QWidget" name="panelCentro" native="true">
      <layout class="QFormLayout" name="formLayout_2">
+      <item row="1" column="0">
+       <widget class="QLabel" name="etiquetaNoEmpleado">
+        <property name="text">
+         <string>No. de empleado:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QLineEdit" name="campoNoEmpleado"/>
+      </item>
       <item row="2" column="0">
        <widget class="QLabel" name="etiquetaNombre">
         <property name="text">
@@ -48,57 +58,27 @@
        <widget class="QLineEdit" name="campoNombre"/>
       </item>
       <item row="3" column="0">
-       <widget class="QLabel" name="etiquetaApellidoPaterno">
-        <property name="text">
-         <string>Apellido paterno:</string>
-        </property>
-       </widget>
-      </item>
-      <item row="3" column="1">
-       <widget class="QLineEdit" name="campoApellidoPaterno"/>
-      </item>
-      <item row="4" column="0">
-       <widget class="QLabel" name="etiquetaApellidoMaterno">
-        <property name="text">
-         <string>Apellido materno:</string>
-        </property>
-       </widget>
-      </item>
-      <item row="4" column="1">
-       <widget class="QLineEdit" name="campoApellidoMaterno"/>
-      </item>
-      <item row="1" column="1">
-       <widget class="QLineEdit" name="campoNoEmpleado"/>
-      </item>
-      <item row="1" column="0">
-       <widget class="QLabel" name="etiquetaNoEmpleado">
-        <property name="text">
-         <string>No. de empleado:</string>
-        </property>
-       </widget>
-      </item>
-      <item row="5" column="1">
-       <widget class="QTimeEdit" name="tiempoEntrada">
-        <property name="displayFormat">
-         <string>hh:mm</string>
-        </property>
-       </widget>
-      </item>
-      <item row="5" column="0">
        <widget class="QLabel" name="etiquetaHoraEntrada">
         <property name="text">
          <string>Hora de entrada:</string>
         </property>
        </widget>
       </item>
-      <item row="6" column="0">
+      <item row="3" column="1">
+       <widget class="QTimeEdit" name="tiempoEntrada">
+        <property name="displayFormat">
+         <string>hh:mm</string>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="0">
        <widget class="QLabel" name="etiquetaHoraSalida">
         <property name="text">
          <string>Hora de salida:</string>
         </property>
        </widget>
       </item>
-      <item row="6" column="1">
+      <item row="4" column="1">
        <widget class="QTimeEdit" name="tiempoSalida">
         <property name="displayFormat">
          <string>hh:mm</string>
