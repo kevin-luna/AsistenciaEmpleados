@@ -25,15 +25,15 @@ class Ui_VentanaAdministrador(object):
         self.vistaEmpleados.setObjectName("vistaEmpleados")
         self.gridLayout_3 = QtWidgets.QGridLayout(self.vistaEmpleados)
         self.gridLayout_3.setObjectName("gridLayout_3")
-        self.lineEdit = QtWidgets.QLineEdit(self.vistaEmpleados)
-        self.lineEdit.setObjectName("lineEdit")
-        self.gridLayout_3.addWidget(self.lineEdit, 0, 1, 1, 1)
-        self.pushButton = QtWidgets.QPushButton(self.vistaEmpleados)
-        self.pushButton.setObjectName("pushButton")
-        self.gridLayout_3.addWidget(self.pushButton, 0, 2, 1, 1)
-        self.label = QtWidgets.QLabel(self.vistaEmpleados)
-        self.label.setObjectName("label")
-        self.gridLayout_3.addWidget(self.label, 0, 0, 1, 1)
+        self.campoBusqueda = QtWidgets.QLineEdit(self.vistaEmpleados)
+        self.campoBusqueda.setObjectName("campoBusqueda")
+        self.gridLayout_3.addWidget(self.campoBusqueda, 0, 1, 1, 1)
+        self.botonBuscar = QtWidgets.QPushButton(self.vistaEmpleados)
+        self.botonBuscar.setObjectName("botonBuscar")
+        self.gridLayout_3.addWidget(self.botonBuscar, 0, 2, 1, 1)
+        self.etiquetaBuscar = QtWidgets.QLabel(self.vistaEmpleados)
+        self.etiquetaBuscar.setObjectName("etiquetaBuscar")
+        self.gridLayout_3.addWidget(self.etiquetaBuscar, 0, 0, 1, 1)
         self.tablaEmpleados = QtWidgets.QTableWidget(self.vistaEmpleados)
         self.tablaEmpleados.setObjectName("tablaEmpleados")
         self.tablaEmpleados.setColumnCount(7)
@@ -101,15 +101,15 @@ class Ui_VentanaAdministrador(object):
         self.gridLayout.addWidget(self.tabVistas, 0, 0, 1, 1)
 
         self.retranslateUi(VentanaAdministrador)
-        self.tabVistas.setCurrentIndex(1)
+        self.tabVistas.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(VentanaAdministrador)
 
     def retranslateUi(self, VentanaAdministrador):
         _translate = QtCore.QCoreApplication.translate
         VentanaAdministrador.setWindowTitle(_translate("VentanaAdministrador", "JEB - Panel de administracion"))
-        self.lineEdit.setPlaceholderText(_translate("VentanaAdministrador", "Nombre del empleado"))
-        self.pushButton.setText(_translate("VentanaAdministrador", "Buscar"))
-        self.label.setText(_translate("VentanaAdministrador", "Buscar por nombre:"))
+        self.campoBusqueda.setPlaceholderText(_translate("VentanaAdministrador", "Nombre del empleado"))
+        self.botonBuscar.setText(_translate("VentanaAdministrador", "Buscar"))
+        self.etiquetaBuscar.setText(_translate("VentanaAdministrador", "Buscar por nombre:"))
         item = self.tablaEmpleados.horizontalHeaderItem(0)
         item.setText(_translate("VentanaAdministrador", "No. de empleado"))
         item = self.tablaEmpleados.horizontalHeaderItem(1)
@@ -140,3 +140,13 @@ class Ui_VentanaAdministrador(object):
         item.setText(_translate("VentanaAdministrador", "Retraso"))
         self.botonEliminarRegistro.setText(_translate("VentanaAdministrador", "Eliminar registro"))
         self.tabVistas.setTabText(self.tabVistas.indexOf(self.vistaAsistencias), _translate("VentanaAdministrador", "Asistencias"))
+
+
+if __name__ == "__main__":
+    import sys
+    app = QtWidgets.QApplication(sys.argv)
+    VentanaAdministrador = QtWidgets.QWidget()
+    ui = Ui_VentanaAdministrador()
+    ui.setupUi(VentanaAdministrador)
+    VentanaAdministrador.show()
+    sys.exit(app.exec_())

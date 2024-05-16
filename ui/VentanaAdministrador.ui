@@ -20,7 +20,7 @@
       <enum>QTabWidget::North</enum>
      </property>
      <property name="currentIndex">
-      <number>1</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="vistaEmpleados">
       <property name="layoutDirection">
@@ -31,21 +31,21 @@
       </attribute>
       <layout class="QGridLayout" name="gridLayout_3">
        <item row="0" column="1">
-        <widget class="QLineEdit" name="lineEdit">
+        <widget class="QLineEdit" name="campoBusqueda">
          <property name="placeholderText">
           <string>Nombre del empleado</string>
          </property>
         </widget>
        </item>
        <item row="0" column="2">
-        <widget class="QPushButton" name="pushButton">
+        <widget class="QPushButton" name="botonBuscar">
          <property name="text">
           <string>Buscar</string>
          </property>
         </widget>
        </item>
        <item row="0" column="0">
-        <widget class="QLabel" name="label">
+        <widget class="QLabel" name="etiquetaBuscar">
          <property name="text">
           <string>Buscar por nombre:</string>
          </property>
