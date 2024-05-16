@@ -20,7 +20,7 @@
       <enum>QTabWidget::North</enum>
      </property>
      <property name="currentIndex">
-      <number>0</number>
+      <number>1</number>
      </property>
      <widget class="QWidget" name="vistaEmpleados">
       <property name="layoutDirection">
@@ -134,6 +134,11 @@
          <column>
           <property name="text">
            <string>Nombre</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>Fecha</string>
           </property>
          </column>
          <column>
