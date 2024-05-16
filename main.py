@@ -4,7 +4,7 @@ import sqlite3
 
 
 from PyQt5.QtCore import Qt
-from PyQt5.QtWidgets import QApplication, QWidget, QMessageBox
+from PyQt5.QtWidgets import QApplication, QWidget, QMessageBox, QTableWidgetItem
 from vistas.Ui_VentanaInicioSesion import Ui_VentanaInicioSesion
 from vistas.Ui_VentanaControlAsistencia import Ui_VentanaControlAsistencia
 from vistas.Ui_VentanaAdministrador import Ui_VentanaAdministrador
@@ -73,6 +73,48 @@ class VentanaAdministrador(QWidget):
         super().__init__(parent)
         self.ui = Ui_VentanaAdministrador()
         self.ui.setupUi(self)
+        self.campoBusqueda = self.ui.campoBusqueda
+        self.botonBusqueda = self.ui.botonBuscar
+        self.tablaEmpleados = self.ui.tablaEmpleados
+        self.cargarEmpleados()
+
+        self.botonBusqueda.clicked.connect(self.buscarEmpleados)
+        self.campoBusqueda.textChanged.connect(self.reiniciarBusqueda)
+
+
+    def buscarEmpleados(self):
+        cursor = conexion.cursor()
+        nombreEmpleado = self.campoBusqueda.text()
+        print("Buscando: ",nombreEmpleado)
+        cursor.execute(f"SELECT * FROM empleados WHERE nombre LIKE '%{nombreEmpleado}%'")
+        resultados = cursor.fetchall()
+        self.tablaEmpleados.setRowCount(0)
+        for e in resultados:
+            fila_actual = self.tablaEmpleados.rowCount()
+            self.tablaEmpleados.insertRow(fila_actual)
+            self.tablaEmpleados.setItem(fila_actual,0,QTableWidgetItem(f'{e[0]}'))
+            self.tablaEmpleados.setItem(fila_actual,1,QTableWidgetItem(f'{e[1]}'))
+            self.tablaEmpleados.setItem(fila_actual,2,QTableWidgetItem(f'{e[2]}'))
+            self.tablaEmpleados.setItem(fila_actual,3,QTableWidgetItem(f'{e[3]}'))
+        cursor.close()
+
+    def cargarEmpleados(self):
+        cursor = conexion.cursor()
+        cursor.execute("SELECT * FROM empleados")
+        resultados = cursor.fetchall()
+        for e in resultados:
+            fila_actual = self.tablaEmpleados.rowCount()
+            self.tablaEmpleados.insertRow(fila_actual)
+            self.tablaEmpleados.setItem(fila_actual,0,QTableWidgetItem(f'{e[0]}'))
+            self.tablaEmpleados.setItem(fila_actual,1,QTableWidgetItem(f'{e[1]}'))
+            self.tablaEmpleados.setItem(fila_actual,2,QTableWidgetItem(f'{e[2]}'))
+            self.tablaEmpleados.setItem(fila_actual,3,QTableWidgetItem(f'{e[3]}'))
+        cursor.close()
+            
+    def reiniciarBusqueda(self):
+        nombreBusqueda = self.campoBusqueda.text()
+        if len(nombreBusqueda) == 0:
+            self.cargarEmpleados()
 
 class VentanaInformacionEmpleado(QWidget):
     def __init__(self,parent=None):
