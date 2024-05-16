@@ -1,24 +1,21 @@
-create table if not exists empleados(
+create table empleados(
    numeroEmpleado INTEGER PRIMARY KEY AUTOINCREMENT,
    nombre TEXT,
-   apellidoPaterno TEXT,
-   apellidoMaterno TEXT,
    horaEntrada TEXT,
-   horaSalida TEXT
+   horaSalida TEXT,
+   clave TEXT
 );
 
-PRAGMA foreign_keys=ON;
 
 create table asistencias(
     numeroEmpleado integer,
     nombre text,
+    fecha text,
     horaLlegada text,
     horaSalida text,
-    foreign key(numeroEmpleado) references empleados(numeroEmpleado)
 );
 
-create table usuarios(
-   nombre text primary key,
-   clave text,
-   admin integer
+create table administradores(
+   usuario text primary key,
+   clave text
 );
