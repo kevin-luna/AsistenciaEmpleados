@@ -34,7 +34,6 @@ class VentanaInicioSesion(QWidget):
         usuario = self.obtenerUsuario()
         respuesta = usuario.autenticar()
         if respuesta != None:
-            print("el usuario existe")
             if respuesta[0] == 'admin':
                 self.ventanaAdministrador.show()
                 ventanaInicioSesion.close()
@@ -55,7 +54,7 @@ class VentanaControlAsistencia(QWidget):
         self.botonRegistrarSalida = self.ui.botonRegistrarSalida
         self.botonSalir = self.ui.botonSalir
 
-        self.botonRegistrarLlegada.clicked.connect(self.registrarEntrada)
+        self.botonRegistrarLlegada.clicked.connect(self.registrarLlegada)
         self.botonRegistrarSalida.clicked.connect(self.registrarSalida)
         self.ui.botonSalir.clicked.connect(self.salir)
 
@@ -65,35 +64,23 @@ class VentanaControlAsistencia(QWidget):
     def setEmpleado(self,numeroEmpleado,nombreEmpleado):
         self.numeroEmpleado = int(numeroEmpleado)
         self.nombreEmpleado = nombreEmpleado
+        self.registroAsistencia = Asistencia(self.numeroEmpleado,self.nombreEmpleado,'','','')
 
-    def registrarEntrada(self):
-        fecha_actual = datetime.now().date()
-        hora_actual = datetime.now().strftime("%H:%M")
-        cursor = conexion.cursor()
-        consulta = f"SELECT numeroEmpleado FROM asistencias WHERE numeroEmpleado={self.numeroEmpleado} AND fecha='{fecha_actual}'"
-        print(consulta)
-        cursor.execute(consulta)
-        registros = cursor.fetchall()
-        if len(registros)>=1:
+    def registrarLlegada(self):
+        status = self.registroAsistencia.registrarLlegada()
+        if status == 1:
             QMessageBox.information(self,"Error al registrar la asistencia","Ya existe un registro de entrada para el día de hoy.")
         else:
-            cursor.execute(f"INSERT INTO asistencias(numeroEmpleado,nombre,fecha,horaLlegada) VALUES({self.numeroEmpleado},'{self.nombreEmpleado}','{fecha_actual}','{hora_actual}')")
-            conexion.commit()
             QMessageBox.information(self,"Asistencia registrada","Se registró la hora de entrada.")
-        cursor.close()
 
     def registrarSalida(self):
-        fecha_actual = datetime.now().date()
-        hora_actual = datetime.now().strftime("%H:%M")
-        cursor = conexion.cursor()
-        cursor.execute(f"SELECT numeroEmpleado FROM asistencias WHERE numeroEmpleado={self.numeroEmpleado} AND fecha='{fecha_actual}'")
-        registros = cursor.fetchall()
-        if len(registros)>=1:
-            cursor.execute(f"UPDATE asistencias SET horaSalida='{hora_actual}'")
+        status = self.registroAsistencia.registrarSalida()
+        if status == 0:
             QMessageBox.information(self,"Salida registrada","Se registró la hora de salida.")
-            conexion.commit()
-        else:
+        elif status == 1:
             QMessageBox.information(self,"Error al registrar la salida","No existe un registro de entrada para el día de hoy.")  
+        else:
+            QMessageBox.information(self,"Error al registrar la salida","Ya hay un registro de salida para el día de hoy.")  
 
 class VentanaAdministrador(QWidget):
     def __init__(self,parent=None):
@@ -453,6 +440,7 @@ class Asistencia:
     def getRetrasado(self):
         return self.retrasado
     
+    
     @staticmethod
     def obtenerTodas():
         try:
@@ -478,6 +466,45 @@ class Asistencia:
             return listaAsistencias
         except sqlite3.Error as e:
             return None
+        
+    def registrarLlegada(self):
+        try:
+            self.fecha = datetime.now().date()
+            self.horaLlegada = datetime.now().strftime("%H:%M")
+            cursor = conexion.cursor()
+            cursor.execute("SELECT numeroEmpleado FROM asistencias WHERE numeroEmpleado=? AND fecha=?",(self.numeroEmpleado,self.fecha))
+            registros = cursor.fetchall()
+            if len(registros)>=1:
+                cursor.close()
+                return 1
+            cursor.execute("INSERT INTO asistencias(numeroEmpleado,nombre,fecha,horaLlegada) VALUES(?,?,?,?)",(self.numeroEmpleado,self.nombre,self.fecha,self.horaLlegada))
+            conexion.commit()
+            cursor.close()
+            return 0
+        except sqlite3.Error as e:
+            return 1
+        
+
+    def registrarSalida(self):
+        try:
+            self.fecha = datetime.now().date()
+            cursor = conexion.cursor()
+            cursor.execute(f"SELECT numeroEmpleado,horaSalida FROM asistencias WHERE numeroEmpleado=? AND fecha=?",(self.numeroEmpleado,self.fecha))
+            registros = cursor.fetchall()
+            self.horaSalida = registros[0][1]
+            if len(registros)>=1:
+                if self.horaSalida == None or self.horaSalida == '':
+                    self.horaSalida = datetime.now().strftime("%H:%M")
+                    cursor.execute(f"UPDATE asistencias SET horaSalida=?",(self.horaSalida,))
+                    conexion.commit()
+                    cursor.close()
+                    return 0
+                cursor.close()
+                return 2
+            cursor.close()
+            return 1
+        except sqlite3.Error as e:
+            return 1
     
     @staticmethod
     def eliminar(asistencia):
