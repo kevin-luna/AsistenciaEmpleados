@@ -20,11 +20,32 @@ class VentanaInicioSesion(QWidget):
         super().__init__(parent)
         self.ui = Ui_VentanaInicioSesion()
         self.ui.setupUi(self)
+        self.botonIniciarSesion = self.ui.botonIniciarSesion
+        self.botonIniciarSesion.clicked.connect(self.iniciarSesion)
+        self.ventanaControlAsistencia = VentanaControlAsistencia()
+        self.ventanaAdministrador = VentanaAdministrador()
 
     def obtenerUsuario(self):
         nombre = self.ui.campoUsuario.text()
         clave_acceso = self.ui.campoContrasena.text()
         return Usuario(nombre,clave_acceso,None)
+    
+    def iniciarSesion(self):
+        usuario = ventanaInicioSesion.obtenerUsuario()
+        cursor = conexion.cursor()
+        cursor.execute(f"SELECT * FROM administradores WHERE usuario = '{usuario.getNombre()}' and clave = '{usuario.getClave()}'")
+        resultados  = cursor.fetchall()
+        if len(resultados) == 1:
+            self.ventanaAdministrador.show()
+            ventanaInicioSesion.close()
+        else:
+            cursor.execute(f"SELECT nombre FROM empleados WHERE numeroEmpleado='{usuario.getNombre()}' and clave='{usuario.getClave()}'")
+            resultados = cursor.fetchall()
+            if len(resultados)==1:
+                self.ventanaControlAsistencia.setEmpleado(usuario.getNombre(),resultados[0][0])
+                self.ventanaControlAsistencia.show()
+                ventanaInicioSesion.close()
+        cursor.close()
 
 class VentanaControlAsistencia(QWidget):
     def __init__(self, parent=None):
@@ -33,8 +54,17 @@ class VentanaControlAsistencia(QWidget):
         self.ui.setupUi(self)
         self.numeroEmpleado = None
         self.nombreEmpleado = None
-        self.ui.botonRegistrarLlegada.clicked.connect(self.registrarEntrada)
-        self.ui.botonRegistrarSalida.clicked.connect(self.registrarSalida)
+
+        self.botonRegistrarLlegada = self.ui.botonRegistrarLlegada
+        self.botonRegistrarSalida = self.ui.botonRegistrarSalida
+        self.botonSalir = self.ui.botonSalir
+
+        self.botonRegistrarLlegada.clicked.connect(self.registrarEntrada)
+        self.botonRegistrarSalida.clicked.connect(self.registrarSalida)
+        self.ui.botonSalir.clicked.connect(self.salir)
+
+    def salir(self):
+        self.close()
 
     def setEmpleado(self,numeroEmpleado,nombreEmpleado):
         self.numeroEmpleado = int(numeroEmpleado)
@@ -491,36 +521,8 @@ class Usuario:
     def setAdmin(self,admin):
         self.admin = admin
 
-app = QApplication(sys.argv)
-ventanaInicioSesion = VentanaInicioSesion()
-ventanaControlAsistencia = VentanaControlAsistencia()
-ventanaAdministrador = VentanaAdministrador()
-
-def iniciarSesion(self):
-    usuario = ventanaInicioSesion.obtenerUsuario()
-    cursor = conexion.cursor()
-    cursor.execute(f"SELECT * FROM administradores WHERE usuario = '{usuario.getNombre()}' and clave = '{usuario.getClave()}'")
-    resultados  = cursor.fetchall()
-    if len(resultados) == 1:
-        ventanaAdministrador.show()
-        ventanaInicioSesion.close()
-    else:
-        cursor.execute(f"SELECT nombre FROM empleados WHERE numeroEmpleado='{usuario.getNombre()}' and clave='{usuario.getClave()}'")
-        resultados = cursor.fetchall()
-        if len(resultados)==1:
-            ventanaControlAsistencia.setEmpleado(usuario.getNombre(),resultados[0][0])
-            ventanaControlAsistencia.show()
-            ventanaInicioSesion.close()
-    cursor.close()
-
-
-def salirVentanaAsistencia():
-    ventanaControlAsistencia.close()
-
-    
-ventanaInicioSesion.ui.botonIniciarSesion.clicked.connect(iniciarSesion)
-ventanaControlAsistencia.ui.botonSalir.clicked.connect(salirVentanaAsistencia)
-
 if __name__ == "__main__":
+    app = QApplication(sys.argv)
+    ventanaInicioSesion = VentanaInicioSesion()
     ventanaInicioSesion.show()
     sys.exit(app.exec())
