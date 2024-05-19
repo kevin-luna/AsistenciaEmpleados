@@ -65,8 +65,7 @@ class VentanaControlAsistencia(QWidget):
             QMessageBox.information(self,"Salida registrada","Se registró la hora de salida.")
             conexion.commit()
         else:
-            QMessageBox.information(self,"Error al registrar la salida","No existe un registro de entrada para el día de hoy.")
-            
+            QMessageBox.information(self,"Error al registrar la salida","No existe un registro de entrada para el día de hoy.")  
 
 class VentanaAdministrador(QWidget):
     def __init__(self,parent=None):
@@ -75,11 +74,14 @@ class VentanaAdministrador(QWidget):
         self.ui.setupUi(self)
         self.campoBusqueda = self.ui.campoBusqueda
         self.botonBusqueda = self.ui.botonBuscar
+        self.botonEliminarEmpleado = self.ui.botonEliminarEmpleado
         self.tablaEmpleados = self.ui.tablaEmpleados
+        #self.tablaEmpleados.cellClicked.connect(self.imprimirEmpleadoSeleccionado)
         self.cargarEmpleados()
 
         self.botonBusqueda.clicked.connect(self.buscarEmpleados)
         self.campoBusqueda.textChanged.connect(self.reiniciarBusqueda)
+        self.botonEliminarEmpleado.clicked.connect(self.eliminarEmpleado)
 
 
     def buscarEmpleados(self):
@@ -102,6 +104,7 @@ class VentanaAdministrador(QWidget):
         cursor = conexion.cursor()
         cursor.execute("SELECT * FROM empleados")
         resultados = cursor.fetchall()
+        self.tablaEmpleados.setRowCount(0)
         for e in resultados:
             fila_actual = self.tablaEmpleados.rowCount()
             self.tablaEmpleados.insertRow(fila_actual)
@@ -115,6 +118,25 @@ class VentanaAdministrador(QWidget):
         nombreBusqueda = self.campoBusqueda.text()
         if len(nombreBusqueda) == 0:
             self.cargarEmpleados()
+
+
+    def obtenerEmpleadoSeleccionado(self):
+        filaSeleccionada = self.tablaEmpleados.currentRow()
+        return int(self.tablaEmpleados.item(filaSeleccionada,0).text())
+    
+    def eliminarEmpleado(self):
+        numeroEmpleado = self.obtenerEmpleadoSeleccionado()
+
+        cursor = conexion.cursor()
+        cursor.execute(f"SELECT numeroEmpleado FROM empleados WHERE numeroEmpleado = {numeroEmpleado}")
+        resultados = cursor.fetchall()
+        if len(resultados)>0:
+            cursor.execute(f"DELETE FROM empleados WHERE numeroEmpleado = {numeroEmpleado}")
+            conexion.commit()
+            QMessageBox.information(self,"Empleado eliminado","Se eliminó el empleado.")
+            self.cargarEmpleados()
+        else:
+            QMessageBox.information(self,"Error al eliminar","El empleado a eliminar ya no se encuentra en la base de datos.")
 
 class VentanaInformacionEmpleado(QWidget):
     def __init__(self,parent=None):
@@ -255,12 +277,6 @@ def iniciarSesion(self):
 
 def agregarEmpleado():
     ventanaInformacionEmpleado.show()
-
-def editarEmpleado():
-    pass
-
-def eliminarEmpleado():
-    pass
 
 def salirVentanaAsistencia():
     ventanaControlAsistencia.close()
