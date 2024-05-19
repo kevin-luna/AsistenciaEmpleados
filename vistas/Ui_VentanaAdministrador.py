@@ -71,6 +71,7 @@ class Ui_VentanaAdministrador(object):
         self.gridLayout_2 = QtWidgets.QGridLayout(self.vistaAsistencias)
         self.gridLayout_2.setObjectName("gridLayout_2")
         self.tablaAsistencias = QtWidgets.QTableWidget(self.vistaAsistencias)
+        self.tablaAsistencias.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
         self.tablaAsistencias.setObjectName("tablaAsistencias")
         self.tablaAsistencias.setColumnCount(6)
         self.tablaAsistencias.setRowCount(0)
@@ -103,7 +104,7 @@ class Ui_VentanaAdministrador(object):
         self.gridLayout.addWidget(self.tabVistas, 0, 0, 1, 1)
 
         self.retranslateUi(VentanaAdministrador)
-        self.tabVistas.setCurrentIndex(1)
+        self.tabVistas.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(VentanaAdministrador)
 
     def retranslateUi(self, VentanaAdministrador):
