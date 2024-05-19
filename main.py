@@ -138,7 +138,7 @@ class VentanaAdministrador(QWidget):
         self.cargarEmpleados(Empleado.obtenerTodos())
 
     def cargarTodasLasAsistencias(self):
-        self.cargarAsistencias(RegistroAsistencia.obtenerTodas())
+        self.cargarAsistencias(Asistencia.obtenerTodas())
         
     def reiniciarBusqueda(self):
         nombreBusqueda = self.campoBusqueda.text()
@@ -196,7 +196,7 @@ class VentanaAdministrador(QWidget):
     def eliminarAsistencia(self):
         asistencia = self.obtenerAsistenciaSeleccionada()
         if asistencia != -1:
-            if RegistroAsistencia.eliminar(asistencia):
+            if Asistencia.eliminar(asistencia):
                 QMessageBox.information(self,"Asistencia eliminada","Se ha eliminado el registro de asistencia con éxito.")
                 self.cargarTodasLasAsistencias()
             else:
@@ -383,7 +383,7 @@ class Empleado:
                 return False
         return False
 
-class RegistroAsistencia:
+class Asistencia:
     def __init__(self,numeroEmpleado,nombre,fecha,horaLlegada,horaSalida):
         self.numeroEmpleado = numeroEmpleado
         self.nombre = nombre
@@ -446,7 +446,7 @@ class RegistroAsistencia:
             resultados = cursor.fetchall()
             listaAsistencias = list()
             for a in resultados:
-                listaAsistencias.append(RegistroAsistencia(a[0],a[1],a[2],a[3],a[4]))
+                listaAsistencias.append(Asistencia(a[0],a[1],a[2],a[3],a[4]))
                 listaAsistencias[-1].setRetrasado(a[5])
             cursor.close()
             return listaAsistencias
