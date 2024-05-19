@@ -1,6 +1,7 @@
 # This Python file uses the following encoding: utf-8
 import sys
 import sqlite3
+import traceback
 
 
 from PyQt5.QtCore import Qt,QTime
@@ -76,6 +77,7 @@ class VentanaAdministrador(QWidget):
         self.campoBusqueda = self.ui.campoBusqueda
         self.botonBusqueda = self.ui.botonBuscar
         self.botonAgregarEmpleado = self.ui.botonAgregarEmpleado
+        self.botonEditarEmpleado = self.ui.botonEditarEmpleado
         self.botonEliminarEmpleado = self.ui.botonEliminarEmpleado
         self.tablaEmpleados = self.ui.tablaEmpleados
         self.tablaAsistencias = self.ui.tablaAsistencias
@@ -88,6 +90,7 @@ class VentanaAdministrador(QWidget):
         self.botonBusqueda.clicked.connect(self.buscarEmpleados)
         self.campoBusqueda.textChanged.connect(self.reiniciarBusqueda)
         self.botonAgregarEmpleado.clicked.connect(self.agregarEmpleado)
+        self.botonEditarEmpleado.clicked.connect(self.editarEmpleado)
         self.botonEliminarEmpleado.clicked.connect(self.eliminarEmpleado)
         self.botonActualizarAsistencias.clicked.connect(self.actualizarAsistencias)
         self.botonEliminarAsistencia.clicked.connect(self.eliminarAsistencia)
@@ -143,11 +146,23 @@ class VentanaAdministrador(QWidget):
             self.cargarTodosLosEmpleados()
 
 
-    def obtenerEmpleadoSeleccionado(self):
+    def obtenerNumeroEmpleadoSeleccionado(self):
         filaSeleccionada = self.tablaEmpleados.currentRow()
         if filaSeleccionada != -1:
             return int(self.tablaEmpleados.item(filaSeleccionada,0).text())
         return -1
+    
+    def obtenerEmpleadoSeleccionado(self):
+        filaSeleccionada = self.tablaEmpleados.currentRow()
+        if filaSeleccionada != -1:
+            return Empleado(
+                int(self.tablaEmpleados.item(filaSeleccionada,0).text()),
+                self.tablaEmpleados.item(filaSeleccionada,1).text(),
+                self.tablaEmpleados.item(filaSeleccionada,2).text(),
+                self.tablaEmpleados.item(filaSeleccionada,3).text(),
+                ''
+            )
+        return None
     
     def obtenerAsistenciaSeleccionada(self):
         filaSeleccionada = self.tablaAsistencias.currentRow()
@@ -156,10 +171,11 @@ class VentanaAdministrador(QWidget):
         return -1
     
     def agregarEmpleado(self):
+        self.ventanaInformacionEmpleado.editor = False
         self.ventanaInformacionEmpleado.mostrarVentana()
     
     def eliminarEmpleado(self):
-        numeroEmpleado = self.obtenerEmpleadoSeleccionado()
+        numeroEmpleado = self.obtenerNumeroEmpleadoSeleccionado()
         if numeroEmpleado != -1:
             if Empleado.eliminar(numeroEmpleado):
                 QMessageBox.information(self,"Empleado eliminado","Se eliminó el empleado exitosamente.")
@@ -167,6 +183,13 @@ class VentanaAdministrador(QWidget):
             else:
                 QMessageBox.information(self,"Error al eliminar","No se ha podido eliminar el empleado.")
     
+    def editarEmpleado(self):
+        empleado = self.obtenerEmpleadoSeleccionado()
+        if empleado != None:
+            self.ventanaInformacionEmpleado.editor = True
+            self.ventanaInformacionEmpleado.cargarEmpleado(empleado)
+            self.ventanaInformacionEmpleado.show()
+
     def actualizarAsistencias(self):
         self.cargarTodasLasAsistencias()
 
@@ -192,6 +215,8 @@ class VentanaInformacionEmpleado(QWidget):
         self.horaSalida = self.ui.tiempoSalida
         self.botonGuardar = self.ui.botonGuardarEmpleado
         self.botonCancelar = self.ui.botonCancelar
+        self.numeroEmpleado = -1
+        self.editor = False
 
         self.botonGuardar.clicked.connect(self.guardarEmpleado)
         self.botonCancelar.clicked.connect(self.cerrarVentana)
@@ -209,23 +234,37 @@ class VentanaInformacionEmpleado(QWidget):
         confirmacionClave = self.campoConfirmacionClave.text()
         entrada = self.horaEntrada.time().toString("HH:mm")
         salida = self.horaSalida.time().toString("HH:mm")
-        if len(nombre)==0 or len(clave)==0:
+        if len(nombre)==0 or (len(clave)==0 and self.editor==False):
             QMessageBox.warning(self,"Datos incompletos","No pueden quedar campos vacíos.")
             return None
         if clave != confirmacionClave:
             QMessageBox.warning(self,"Error en las claves","Las claves no coinciden.")
             return None
-        return Empleado(0,nombre,entrada,salida,clave)
+        return Empleado(self.numeroEmpleado,nombre,entrada,salida,clave)
 
     def guardarEmpleado(self):
         nuevoEmpleado = self.obtenerEmpleado()
-        if nuevoEmpleado != None and nuevoEmpleado.guardar():
-            QMessageBox.information(self,"Empleado agregado","Se agregó el empleado exitosamente.")
-            self.close()
-            self.ventanaOrigen.cargarTodosLosEmpleados()
+        if nuevoEmpleado != None:
+            if self.editor:
+                if nuevoEmpleado.actualizar():
+                    QMessageBox.information(self,"Empleado actualizado","Se actualizó el empleado exitosamente.")
+                    self.close()
+                    self.ventanaOrigen.cargarTodosLosEmpleados()
+                else:
+                    QMessageBox.information(self,"Error al actualizar","No se ha podido actualizar el empleado.")
+            else:
+                if nuevoEmpleado.guardar():
+                    QMessageBox.information(self,"Empleado agregado","Se agregó el empleado exitosamente.")
+                    self.close()
+                    self.ventanaOrigen.cargarTodosLosEmpleados()
+                else:
+                    QMessageBox.information(self,"Error al agregar","No se ha podido agregar el empleado.")
 
-    def cargarEmpleado(self):
-        pass
+    def cargarEmpleado(self,empleado):
+        self.numeroEmpleado = empleado.getNumeroEmpleado()
+        self.campoNombre.setText(empleado.getNombre())
+        self.horaEntrada.setTime(QTime.fromString(empleado.getHoraEntrada(),"HH:mm"))
+        self.horaSalida.setTime(QTime.fromString(empleado.getHoraSalida(),"HH:mm"))
 
     def mostrarVentana(self):
         self.limpiar()
@@ -311,6 +350,23 @@ class Empleado:
             return False
         return False
     
+    def actualizar(self):
+        try:
+            cursor = conexion.cursor()
+            cursor.execute("SELECT numeroEmpleado FROM empleados WHERE numeroEmpleado = ?",(self.numeroEmpleado,))
+            resultados = cursor.fetchall()
+            if len(resultados)>0:
+                if self.clave != '':
+                    cursor.execute("UPDATE empleados SET nombre=?,horaEntrada=?,horaSalida=?,clave=? WHERE numeroEmpleado = ?",(self.nombre,self.horaEntrada,self.horaSalida,self.clave,self.numeroEmpleado))
+                else:
+                    cursor.execute("UPDATE empleados SET nombre=?,horaEntrada=?,horaSalida=? WHERE numeroEmpleado = ?",(self.nombre,self.horaEntrada,self.horaSalida,self.numeroEmpleado))
+                cursor.close()
+                return True
+        except sqlite3.Error as e:
+            traceback.print_exc()
+            return False
+        return False
+    
     @staticmethod
     def eliminar(numeroEmpleado):
         if numeroEmpleado != -1:
@@ -388,7 +444,6 @@ class RegistroAsistencia:
                 empleados ON asistencias.numeroEmpleado = empleados.numeroEmpleado
             """)
             resultados = cursor.fetchall()
-            print("se encontraron ",len(resultados)," asistencias")
             listaAsistencias = list()
             for a in resultados:
                 listaAsistencias.append(RegistroAsistencia(a[0],a[1],a[2],a[3],a[4]))
