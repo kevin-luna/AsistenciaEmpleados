@@ -3,7 +3,7 @@ import sys
 import sqlite3
 
 
-from PyQt5.QtCore import Qt
+from PyQt5.QtCore import Qt,QTime
 from PyQt5.QtWidgets import QApplication, QWidget, QMessageBox, QTableWidgetItem
 from vistas.Ui_VentanaInicioSesion import Ui_VentanaInicioSesion
 from vistas.Ui_VentanaControlAsistencia import Ui_VentanaControlAsistencia
@@ -74,84 +74,127 @@ class VentanaAdministrador(QWidget):
         self.ui.setupUi(self)
         self.campoBusqueda = self.ui.campoBusqueda
         self.botonBusqueda = self.ui.botonBuscar
+        self.botonAgregarEmpleado = self.ui.botonAgregarEmpleado
         self.botonEliminarEmpleado = self.ui.botonEliminarEmpleado
         self.tablaEmpleados = self.ui.tablaEmpleados
-        #self.tablaEmpleados.cellClicked.connect(self.imprimirEmpleadoSeleccionado)
-        self.cargarEmpleados()
+        self.ventanaInformacionEmpleado = VentanaInformacionEmpleado(self)
+        self.cargarTodosLosEmpleados()
 
         self.botonBusqueda.clicked.connect(self.buscarEmpleados)
         self.campoBusqueda.textChanged.connect(self.reiniciarBusqueda)
+        self.botonAgregarEmpleado.clicked.connect(self.agregarEmpleado)
         self.botonEliminarEmpleado.clicked.connect(self.eliminarEmpleado)
 
 
     def buscarEmpleados(self):
-        cursor = conexion.cursor()
         nombreEmpleado = self.campoBusqueda.text()
-        print("Buscando: ",nombreEmpleado)
-        cursor.execute(f"SELECT * FROM empleados WHERE nombre LIKE '%{nombreEmpleado}%'")
-        resultados = cursor.fetchall()
-        self.tablaEmpleados.setRowCount(0)
-        for e in resultados:
-            fila_actual = self.tablaEmpleados.rowCount()
-            self.tablaEmpleados.insertRow(fila_actual)
-            self.tablaEmpleados.setItem(fila_actual,0,QTableWidgetItem(f'{e[0]}'))
-            self.tablaEmpleados.setItem(fila_actual,1,QTableWidgetItem(f'{e[1]}'))
-            self.tablaEmpleados.setItem(fila_actual,2,QTableWidgetItem(f'{e[2]}'))
-            self.tablaEmpleados.setItem(fila_actual,3,QTableWidgetItem(f'{e[3]}'))
-        cursor.close()
+        if nombreEmpleado != "":
+            self.tablaEmpleados.setRowCount(0)
+            resultados = Empleado.buscarPorNombre(nombreEmpleado)
+            if resultados != None:
+                self.cargarEmpleados(resultados)
 
-    def cargarEmpleados(self):
-        cursor = conexion.cursor()
-        cursor.execute("SELECT * FROM empleados")
-        resultados = cursor.fetchall()
-        self.tablaEmpleados.setRowCount(0)
-        for e in resultados:
-            fila_actual = self.tablaEmpleados.rowCount()
-            self.tablaEmpleados.insertRow(fila_actual)
-            self.tablaEmpleados.setItem(fila_actual,0,QTableWidgetItem(f'{e[0]}'))
-            self.tablaEmpleados.setItem(fila_actual,1,QTableWidgetItem(f'{e[1]}'))
-            self.tablaEmpleados.setItem(fila_actual,2,QTableWidgetItem(f'{e[2]}'))
-            self.tablaEmpleados.setItem(fila_actual,3,QTableWidgetItem(f'{e[3]}'))
-        cursor.close()
-            
+    def cargarEmpleados(self,listaEmpleados):
+        if listaEmpleados != None:
+            self.tablaEmpleados.setRowCount(0)
+            for e in listaEmpleados:
+                fila_actual = self.tablaEmpleados.rowCount()
+                self.tablaEmpleados.insertRow(fila_actual)
+                self.tablaEmpleados.setItem(fila_actual,0,QTableWidgetItem(f'{e.getNumeroEmpleado()}'))
+                self.tablaEmpleados.setItem(fila_actual,1,QTableWidgetItem(f'{e.getNombre()}'))
+                self.tablaEmpleados.setItem(fila_actual,2,QTableWidgetItem(f'{e.getHoraEntrada()}'))
+                self.tablaEmpleados.setItem(fila_actual,3,QTableWidgetItem(f'{e.getHoraSalida()}'))
+
+    def cargarTodosLosEmpleados(self):
+        self.cargarEmpleados(Empleado.obtenerTodos())
+        
     def reiniciarBusqueda(self):
         nombreBusqueda = self.campoBusqueda.text()
         if len(nombreBusqueda) == 0:
-            self.cargarEmpleados()
+            self.cargarTodosLosEmpleados()
 
 
     def obtenerEmpleadoSeleccionado(self):
         filaSeleccionada = self.tablaEmpleados.currentRow()
-        return int(self.tablaEmpleados.item(filaSeleccionada,0).text())
+        if filaSeleccionada != -1:
+            return int(self.tablaEmpleados.item(filaSeleccionada,0).text())
+        return -1
+    
+    def agregarEmpleado(self):
+        self.ventanaInformacionEmpleado.mostrarVentana()
     
     def eliminarEmpleado(self):
         numeroEmpleado = self.obtenerEmpleadoSeleccionado()
-
-        cursor = conexion.cursor()
-        cursor.execute(f"SELECT numeroEmpleado FROM empleados WHERE numeroEmpleado = {numeroEmpleado}")
-        resultados = cursor.fetchall()
-        if len(resultados)>0:
-            cursor.execute(f"DELETE FROM empleados WHERE numeroEmpleado = {numeroEmpleado}")
-            conexion.commit()
-            QMessageBox.information(self,"Empleado eliminado","Se eliminó el empleado.")
-            self.cargarEmpleados()
-        else:
-            QMessageBox.information(self,"Error al eliminar","El empleado a eliminar ya no se encuentra en la base de datos.")
+        if numeroEmpleado != -1:
+            if Empleado.eliminar(numeroEmpleado):
+                QMessageBox.information(self,"Empleado eliminado","Se eliminó el empleado exitosamente.")
+                self.cargarTodosLosEmpleados()
+            else:
+                QMessageBox.information(self,"Error al eliminar","No se ha podido eliminar el empleado.")
+        
 
 class VentanaInformacionEmpleado(QWidget):
-    def __init__(self,parent=None):
+    def __init__(self,ventanaOrigen,parent=None):
         super().__init__(parent)
-        self.ui = Ui_VentanaInformacionEmpleado()
+        self.ui = Ui_VentanaInformacionEmpleado()        
         self.ui.setupUi(self)
+        self.ventanaOrigen = ventanaOrigen
+        self.campoNombre = self.ui.campoNombre
+        self.campoClave = self.ui.campoClave
+        self.campoConfirmacionClave = self.ui.campoConfirmacionClave
+        self.horaEntrada = self.ui.tiempoEntrada
+        self.horaSalida = self.ui.tiempoSalida
+        self.botonGuardar = self.ui.botonGuardarEmpleado
+        self.botonCancelar = self.ui.botonCancelar
+
+        self.botonGuardar.clicked.connect(self.guardarEmpleado)
+        self.botonCancelar.clicked.connect(self.cerrarVentana)
+
+    def limpiar(self):
+        self.campoNombre.setText("")
+        self.campoClave.setText("")
+        self.campoConfirmacionClave.setText("")
+        self.horaEntrada.setTime(QTime(0,0))
+        self.horaSalida.setTime(QTime(0,0))
+
+    def obtenerEmpleado(self):
+        nombre = self.campoNombre.text()
+        clave = self.campoClave.text()
+        confirmacionClave = self.campoConfirmacionClave.text()
+        entrada = self.horaEntrada.time().toString("HH:mm")
+        salida = self.horaSalida.time().toString("HH:mm")
+        if len(nombre)==0 or len(clave)==0:
+            QMessageBox.warning(self,"Datos incompletos","No pueden quedar campos vacíos.")
+            return None
+        if clave != confirmacionClave:
+            QMessageBox.warning(self,"Error en las claves","Las claves no coinciden.")
+            return None
+        return Empleado(0,nombre,entrada,salida,clave)
+
+    def guardarEmpleado(self):
+        nuevoEmpleado = self.obtenerEmpleado()
+        if nuevoEmpleado != None and nuevoEmpleado.guardar():
+            QMessageBox.information(self,"Empleado agregado","Se agregó el empleado exitosamente.")
+            self.close()
+            self.ventanaOrigen.cargarTodosLosEmpleados()
+
+    def cargarEmpleado(self):
+        pass
+
+    def mostrarVentana(self):
+        self.limpiar()
+        self.show()
+
+    def cerrarVentana(self):
+        self.close()
 
 class Empleado:
-    def __init__(self,numeroEmpleado,nombre,apellidoPaterno,apellidoMaterno,horaEntrada,horaSalida):
+    def __init__(self,numeroEmpleado,nombre,horaEntrada,horaSalida,clave):
         self.numeroEmpleado = numeroEmpleado
         self.nombre = nombre
-        self.apellidoPaterno = apellidoPaterno
-        self.apellidoMaterno = apellidoMaterno
         self.horaEntrada = horaEntrada
         self.horaSalida = horaSalida
+        self.clave = clave
     
     def setNumeroEmpleado(self,numeroEmpleado):
         self.numeroEmpleado = numeroEmpleado
@@ -165,18 +208,6 @@ class Empleado:
     def getNombre(self):
         return self.nombre
 
-    def setApellidoPaterno(self,apellidoPaterno):
-        self.apellidoPaterno = apellidoPaterno
-
-    def getApellidoPaterno(self):
-        return self.apellidoPaterno
-
-    def setApellidoMaterno(self,apellidoMaterno):
-        self.apelllido_materno = apellidoMaterno
-
-    def getApellidoPaterno(self):
-        return self.apellidoMaterno
-
     def setHoraEntrada(self,horaEntrada):
         self.horaEntrada = horaEntrada
 
@@ -186,8 +217,69 @@ class Empleado:
     def setHoraSalida(self,horaSalida):
         self.horaSalida = horaSalida
 
-    def getHoraSalida(self,horaSalida):
+    def getHoraSalida(self):
         return self.horaSalida
+    
+    def setClave(self,clave):
+        self.clave = clave
+
+    def getClave(self):
+        return self.clave
+    
+    @staticmethod
+    def obtenerTodos():
+        try:
+            cursor = conexion.cursor()
+            cursor.execute("SELECT numeroEmpleado,nombre,horaEntrada,horaSalida FROM empleados")
+            resultados = cursor.fetchall()
+            listaEmpleados = list()
+            for empleado in resultados:
+                listaEmpleados.append(Empleado(empleado[0],empleado[1],empleado[2],empleado[3],''))
+            cursor.close()
+            return listaEmpleados
+        except sqlite3.Error as e:
+            return None
+        
+    @staticmethod
+    def buscarPorNombre(nombreEmpleado):
+        try:
+            cursor = conexion.cursor()
+            cursor.execute(f"SELECT numeroEmpleado,nombre,horaEntrada,horaSalida FROM empleados WHERE nombre LIKE '%{nombreEmpleado}%'")
+            resultados = cursor.fetchall()
+            listaEmpleados = list()
+            for empleado in resultados:
+                listaEmpleados.append(Empleado(empleado[0],empleado[1],empleado[2],empleado[3],''))
+            cursor.close()
+            return listaEmpleados
+        except sqlite3.Error as e:
+            print(e)
+            return None
+    
+    def guardar(self):
+        try:
+            cursor = conexion.cursor()
+            cursor.execute("INSERT INTO empleados (nombre, horaEntrada, horaSalida, clave) VALUES(?,?,?,?)",(self.nombre,self.horaEntrada,self.horaSalida,self.clave))
+            conexion.commit()
+            return True
+        except sqlite3.Error as e:
+            return False
+        return False
+    
+    @staticmethod
+    def eliminar(numeroEmpleado):
+        if numeroEmpleado != -1:
+            try:
+                cursor = conexion.cursor()
+                cursor.execute("SELECT numeroEmpleado FROM empleados WHERE numeroEmpleado = ?",(numeroEmpleado,))
+                resultados = cursor.fetchall()
+                if len(resultados)>0:
+                    cursor.execute("DELETE FROM empleados WHERE numeroEmpleado = ?",(numeroEmpleado,))
+                    conexion.commit()
+                    return True
+                cursor.close()
+            except sqlite3.Error as e:
+                return False
+        return False
 
 class RegistroAsistencia:
     def __init__(self,numeroEmpleado,nombre,horaLlegada,horaSalida,retrasado):
@@ -253,7 +345,6 @@ class Usuario:
 
 app = QApplication(sys.argv)
 ventanaInicioSesion = VentanaInicioSesion()
-ventanaInformacionEmpleado = VentanaInformacionEmpleado()
 ventanaControlAsistencia = VentanaControlAsistencia()
 ventanaAdministrador = VentanaAdministrador()
 
@@ -275,22 +366,12 @@ def iniciarSesion(self):
     cursor.close()
 
 
-def agregarEmpleado():
-    ventanaInformacionEmpleado.show()
-
 def salirVentanaAsistencia():
     ventanaControlAsistencia.close()
 
-def guardarEmpleado():
-     pass
-
-def cancelarRegistroEmpleado():
-    ventanaInformacionEmpleado.close()
     
 ventanaInicioSesion.ui.botonIniciarSesion.clicked.connect(iniciarSesion)
 ventanaControlAsistencia.ui.botonSalir.clicked.connect(salirVentanaAsistencia)
-ventanaAdministrador.ui.botonAgregarEmpleado.clicked.connect(agregarEmpleado)
-ventanaInformacionEmpleado.ui.botonCancelar.clicked.connect(cancelarRegistroEmpleado)
 
 if __name__ == "__main__":
     ventanaInicioSesion.show()
