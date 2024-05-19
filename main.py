@@ -373,6 +373,7 @@ class Empleado:
                     cursor.execute("UPDATE empleados SET nombre=?,horaEntrada=?,horaSalida=?,clave=? WHERE numeroEmpleado = ?",(self.nombre,self.horaEntrada,self.horaSalida,self.clave,self.numeroEmpleado))
                 else:
                     cursor.execute("UPDATE empleados SET nombre=?,horaEntrada=?,horaSalida=? WHERE numeroEmpleado = ?",(self.nombre,self.horaEntrada,self.horaSalida,self.numeroEmpleado))
+                conexion.commit()
                 cursor.close()
                 return True
         except sqlite3.Error as e:
