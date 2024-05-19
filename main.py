@@ -5,6 +5,7 @@ import sqlite3
 
 from PyQt5.QtCore import Qt,QTime
 from PyQt5.QtWidgets import QApplication, QWidget, QMessageBox, QTableWidgetItem
+from PyQt5.QtGui import QColor
 from vistas.Ui_VentanaInicioSesion import Ui_VentanaInicioSesion
 from vistas.Ui_VentanaControlAsistencia import Ui_VentanaControlAsistencia
 from vistas.Ui_VentanaAdministrador import Ui_VentanaAdministrador
@@ -77,13 +78,20 @@ class VentanaAdministrador(QWidget):
         self.botonAgregarEmpleado = self.ui.botonAgregarEmpleado
         self.botonEliminarEmpleado = self.ui.botonEliminarEmpleado
         self.tablaEmpleados = self.ui.tablaEmpleados
+        self.tablaAsistencias = self.ui.tablaAsistencias
+        self.botonActualizarAsistencias = self.ui.botonActualizarAsistencias
+        self.botonEliminarAsistencia = self.ui.botonEliminarAsistencia
         self.ventanaInformacionEmpleado = VentanaInformacionEmpleado(self)
         self.cargarTodosLosEmpleados()
+        self.cargarTodasLasAsistencias()
 
         self.botonBusqueda.clicked.connect(self.buscarEmpleados)
         self.campoBusqueda.textChanged.connect(self.reiniciarBusqueda)
         self.botonAgregarEmpleado.clicked.connect(self.agregarEmpleado)
         self.botonEliminarEmpleado.clicked.connect(self.eliminarEmpleado)
+        self.botonActualizarAsistencias.clicked.connect(self.actualizarAsistencias)
+        self.botonEliminarAsistencia.clicked.connect(self.eliminarAsistencia)
+
 
 
     def buscarEmpleados(self):
@@ -104,9 +112,30 @@ class VentanaAdministrador(QWidget):
                 self.tablaEmpleados.setItem(fila_actual,1,QTableWidgetItem(f'{e.getNombre()}'))
                 self.tablaEmpleados.setItem(fila_actual,2,QTableWidgetItem(f'{e.getHoraEntrada()}'))
                 self.tablaEmpleados.setItem(fila_actual,3,QTableWidgetItem(f'{e.getHoraSalida()}'))
+    
+    def cargarAsistencias(self,listaAsistencias):
+        if listaAsistencias != None:
+            self.tablaAsistencias.setRowCount(0)
+            for a in listaAsistencias:
+                fila_actual = self.tablaAsistencias.rowCount()
+                self.tablaAsistencias.insertRow(fila_actual)
+                self.tablaAsistencias.setItem(fila_actual,0,QTableWidgetItem(f'{a.getNumeroEmpleado()}'))
+                self.tablaAsistencias.setItem(fila_actual,1,QTableWidgetItem(f'{a.getNombre()}'))
+                self.tablaAsistencias.setItem(fila_actual,2,QTableWidgetItem(f'{a.getFecha()}'))
+                self.tablaAsistencias.setItem(fila_actual,3,QTableWidgetItem(f'{a.getHoraLlegada()}'))
+                self.tablaAsistencias.setItem(fila_actual,4,QTableWidgetItem(f'{a.getHoraSalida()}'))
+                retrasado = a.getRetrasado()
+                self.tablaAsistencias.setItem(fila_actual,5,QTableWidgetItem(f'{retrasado}'))
+                if retrasado == 'Sí':
+                    self.tablaAsistencias.item(fila_actual,5).setBackground(QColor(255, 0, 0))
+                else:
+                    self.tablaAsistencias.item(fila_actual,5).setBackground(QColor(0, 255, 0))
 
     def cargarTodosLosEmpleados(self):
         self.cargarEmpleados(Empleado.obtenerTodos())
+
+    def cargarTodasLasAsistencias(self):
+        self.cargarAsistencias(RegistroAsistencia.obtenerTodas())
         
     def reiniciarBusqueda(self):
         nombreBusqueda = self.campoBusqueda.text()
@@ -120,6 +149,12 @@ class VentanaAdministrador(QWidget):
             return int(self.tablaEmpleados.item(filaSeleccionada,0).text())
         return -1
     
+    def obtenerAsistenciaSeleccionada(self):
+        filaSeleccionada = self.tablaAsistencias.currentRow()
+        if filaSeleccionada != -1:
+            return (int(self.tablaAsistencias.item(filaSeleccionada,0).text()),self.tablaAsistencias.item(filaSeleccionada,2).text())
+        return -1
+    
     def agregarEmpleado(self):
         self.ventanaInformacionEmpleado.mostrarVentana()
     
@@ -131,7 +166,18 @@ class VentanaAdministrador(QWidget):
                 self.cargarTodosLosEmpleados()
             else:
                 QMessageBox.information(self,"Error al eliminar","No se ha podido eliminar el empleado.")
-        
+    
+    def actualizarAsistencias(self):
+        self.cargarTodasLasAsistencias()
+
+    def eliminarAsistencia(self):
+        asistencia = self.obtenerAsistenciaSeleccionada()
+        if asistencia != -1:
+            if RegistroAsistencia.eliminar(asistencia):
+                QMessageBox.information(self,"Asistencia eliminada","Se ha eliminado el registro de asistencia con éxito.")
+                self.cargarTodasLasAsistencias()
+            else:
+                QMessageBox.warning(self,"Error al eliminar","No se ha podido eliminar el registro de asistencia.")
 
 class VentanaInformacionEmpleado(QWidget):
     def __init__(self,ventanaOrigen,parent=None):
@@ -282,42 +328,89 @@ class Empleado:
         return False
 
 class RegistroAsistencia:
-    def __init__(self,numeroEmpleado,nombre,horaLlegada,horaSalida,retrasado):
+    def __init__(self,numeroEmpleado,nombre,fecha,horaLlegada,horaSalida):
         self.numeroEmpleado = numeroEmpleado
         self.nombre = nombre
+        self.fecha = fecha
         self.horaLlegada = horaLlegada
         self.horaSalida = horaSalida
-        self.retrasado = retrasado
 
-    def set_numeroEmpleado(self,numeroEmpleado):
+    def setNumeroEmpleado(self,numeroEmpleado):
         self.numeroEmpleado = numeroEmpleado
 
-    def get_numeroEmpleado(self):
+    def getNumeroEmpleado(self):
         return self.numeroEmpleado
 
-    def set_nombre(self,nombre):
+    def setNombre(self,nombre):
         self.nombre = nombre
 
-    def get_nombre(self):
+    def getNombre(self):
         return self.nombre
+    
+    def setFecha(self,fecha):
+        self.fecha = fecha
 
-    def set_horaLlegada(self,horaLlegada):
+    def getFecha(self):
+        return self.fecha
+
+    def setHoraLlegada(self,horaLlegada):
         self.horaLlegada = horaLlegada
 
-    def get_horaLlegada(self):
+    def getHoraLlegada(self):
         return self.horaLlegada
 
-    def set_horaSalida(self,horaSalida):
+    def setHoraSalida(self,horaSalida):
         self.horaSalida = horaSalida
 
-    def get_horaSalida(self):
+    def getHoraSalida(self):
         return self.horaSalida
 
-    def set_retrasado(self,retrasado):
+    def setRetrasado(self,retrasado):
         self.retrasado = retrasado
 
-    def get_retrasado(self):
+    def getRetrasado(self):
         return self.retrasado
+    
+    @staticmethod
+    def obtenerTodas():
+        try:
+            cursor = conexion.cursor()
+            cursor.execute("""
+            SELECT 
+                asistencias.*,
+                CASE 
+                    WHEN strftime('%H:%M', asistencias.horaLlegada) > strftime('%H:%M', empleados.horaEntrada) THEN 'Sí'
+                    ELSE 'No'
+                END AS retraso
+            FROM 
+                asistencias
+            JOIN 
+                empleados ON asistencias.numeroEmpleado = empleados.numeroEmpleado
+            """)
+            resultados = cursor.fetchall()
+            print("se encontraron ",len(resultados)," asistencias")
+            listaAsistencias = list()
+            for a in resultados:
+                listaAsistencias.append(RegistroAsistencia(a[0],a[1],a[2],a[3],a[4]))
+                listaAsistencias[-1].setRetrasado(a[5])
+            cursor.close()
+            return listaAsistencias
+        except sqlite3.Error as e:
+            return None
+    
+    @staticmethod
+    def eliminar(asistencia):
+        try:
+            cursor = conexion.cursor()
+            cursor.execute("SELECT numeroEmpleado FROM asistencias WHERE numeroEmpleado = ? AND fecha = ?",asistencia)
+            resultados = cursor.fetchall()
+            if len(resultados)>0:
+                cursor.execute("DELETE FROM asistencias WHERE numeroEmpleado = ? AND fecha = ?",asistencia)
+                conexion.commit()
+                return True
+        except sqlite3.Error as e:
+            return False
+        return False
 
 class Usuario:
     def __init__(self,nombre,clave,admin):
