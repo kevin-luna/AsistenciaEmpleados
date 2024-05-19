@@ -28,24 +28,20 @@ class VentanaInicioSesion(QWidget):
     def obtenerUsuario(self):
         nombre = self.ui.campoUsuario.text()
         clave_acceso = self.ui.campoContrasena.text()
-        return Usuario(nombre,clave_acceso,None)
+        return Usuario(nombre,clave_acceso)
     
     def iniciarSesion(self):
-        usuario = ventanaInicioSesion.obtenerUsuario()
-        cursor = conexion.cursor()
-        cursor.execute(f"SELECT * FROM administradores WHERE usuario = '{usuario.getNombre()}' and clave = '{usuario.getClave()}'")
-        resultados  = cursor.fetchall()
-        if len(resultados) == 1:
-            self.ventanaAdministrador.show()
-            ventanaInicioSesion.close()
-        else:
-            cursor.execute(f"SELECT nombre FROM empleados WHERE numeroEmpleado='{usuario.getNombre()}' and clave='{usuario.getClave()}'")
-            resultados = cursor.fetchall()
-            if len(resultados)==1:
-                self.ventanaControlAsistencia.setEmpleado(usuario.getNombre(),resultados[0][0])
+        usuario = self.obtenerUsuario()
+        respuesta = usuario.autenticar()
+        if respuesta != None:
+            print("el usuario existe")
+            if respuesta[0] == 'admin':
+                self.ventanaAdministrador.show()
+                ventanaInicioSesion.close()
+            else:
+                self.ventanaControlAsistencia.setEmpleado(usuario.getNombre(),respuesta[1])
                 self.ventanaControlAsistencia.show()
                 ventanaInicioSesion.close()
-        cursor.close()
 
 class VentanaControlAsistencia(QWidget):
     def __init__(self, parent=None):
@@ -498,10 +494,9 @@ class Asistencia:
         return False
 
 class Usuario:
-    def __init__(self,nombre,clave,admin):
+    def __init__(self,nombre,clave):
         self.nombre = nombre
         self.clave = clave
-        self.admin = admin
 
     def setNombre(self,nombre):
         self.nombre = nombre
@@ -515,11 +510,22 @@ class Usuario:
     def getClave(self):
         return self.clave
     
-    def getAdmin(self):
-        return self.admin
-    
-    def setAdmin(self,admin):
-        self.admin = admin
+    def autenticar(self):
+        try:
+            cursor = conexion.cursor()
+            cursor.execute(f"SELECT usuario FROM administradores WHERE usuario = ? and clave = ?",(self.nombre,self.clave))
+            resultados  = cursor.fetchall()
+            if len(resultados) == 1:
+                cursor.close()
+                return ('admin',resultados[0][0])
+            else:
+                cursor.execute(f"SELECT nombre FROM empleados WHERE numeroEmpleado=? and clave=?",(self.nombre,self.clave))
+                resultados = cursor.fetchall()
+                if len(resultados)==1:
+                    cursor.close()
+                    return ('empleado',resultados[0][0])
+        except sqlite3.Error as e:
+            return None 
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
