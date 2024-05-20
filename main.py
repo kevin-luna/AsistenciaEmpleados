@@ -490,10 +490,10 @@ class Asistencia:
         try:
             self.fecha = datetime.now().date()
             cursor = conexion.cursor()
-            cursor.execute(f"SELECT numeroEmpleado,horaSalida FROM asistencias WHERE numeroEmpleado=? AND fecha=?",(self.numeroEmpleado,self.fecha))
+            cursor.execute(f"SELECT horaSalida FROM asistencias WHERE numeroEmpleado=? AND fecha=?",(self.numeroEmpleado,self.fecha))
             registros = cursor.fetchall()
-            self.horaSalida = registros[0][1]
             if len(registros)>=1:
+                self.horaSalida = registros[0][0]
                 if self.horaSalida == None or self.horaSalida == '':
                     self.horaSalida = datetime.now().strftime("%H:%M")
                     cursor.execute(f"UPDATE asistencias SET horaSalida=?",(self.horaSalida,))
