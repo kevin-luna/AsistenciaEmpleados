@@ -13,6 +13,7 @@ create table asistencias(
     fecha text,
     horaLlegada text,
     horaSalida text,
+    retardo text
 );
 
 create table administradores(
