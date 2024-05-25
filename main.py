@@ -497,7 +497,6 @@ class Asistencia:
             registros = cursor.fetchall()
             entrada = datetime.strptime(registros[0][0],'%H:%M').time()
             if self.horaLlegada > entrada:
-                print(entrada,"es más tarde que ",self.horaLlegada)
                 retardo = 'Sí'
             else:
                 retardo = 'No'
