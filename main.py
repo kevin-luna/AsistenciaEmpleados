@@ -485,7 +485,7 @@ class Asistencia:
     def registrarLlegada(self):
         try:
             self.fecha = datetime.now().date()
-            self.horaLlegada = datetime.now()
+            self.horaLlegada = datetime.now().time()
             cursor = conexion.cursor()
             cursor.execute("SELECT numeroEmpleado FROM asistencias WHERE numeroEmpleado=? AND fecha=?",(self.numeroEmpleado,self.fecha))
             registros = cursor.fetchall()
@@ -495,8 +495,9 @@ class Asistencia:
             
             cursor.execute("SELECT horaEntrada FROM empleados WHERE numeroEmpleado=?",(self.numeroEmpleado,))
             registros = cursor.fetchall()
-            entrada = datetime.strptime(registros[0][0],'%H:%M')
+            entrada = datetime.strptime(registros[0][0],'%H:%M').time()
             if self.horaLlegada > entrada:
+                print(entrada,"es más tarde que ",self.horaLlegada)
                 retardo = 'Sí'
             else:
                 retardo = 'No'
