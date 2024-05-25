@@ -471,18 +471,7 @@ class Asistencia:
     def obtenerTodas():
         try:
             cursor = conexion.cursor()
-            cursor.execute("""
-            SELECT 
-                asistencias.*,
-                CASE 
-                    WHEN strftime('%H:%M', asistencias.horaLlegada) > strftime('%H:%M', empleados.horaEntrada) THEN 'Sí'
-                    ELSE 'No'
-                END AS retraso
-            FROM 
-                asistencias
-            JOIN 
-                empleados ON asistencias.numeroEmpleado = empleados.numeroEmpleado
-            """)
+            cursor.execute("SELECT * FROM asistencias")
             resultados = cursor.fetchall()
             listaAsistencias = list()
             for a in resultados:
@@ -496,14 +485,22 @@ class Asistencia:
     def registrarLlegada(self):
         try:
             self.fecha = datetime.now().date()
-            self.horaLlegada = datetime.now().strftime("%H:%M")
+            self.horaLlegada = datetime.now()
             cursor = conexion.cursor()
             cursor.execute("SELECT numeroEmpleado FROM asistencias WHERE numeroEmpleado=? AND fecha=?",(self.numeroEmpleado,self.fecha))
             registros = cursor.fetchall()
             if len(registros)>=1:
                 cursor.close()
                 return 1
-            cursor.execute("INSERT INTO asistencias(numeroEmpleado,nombre,fecha,horaLlegada) VALUES(?,?,?,?)",(self.numeroEmpleado,self.nombre,self.fecha,self.horaLlegada))
+            
+            cursor.execute("SELECT horaEntrada FROM empleados WHERE numeroEmpleado=?",(self.numeroEmpleado,))
+            registros = cursor.fetchall()
+            entrada = datetime.strptime(registros[0][0],'%H:%M')
+            if self.horaLlegada > entrada:
+                retardo = 'Sí'
+            else:
+                retardo = 'No'
+            cursor.execute("INSERT INTO asistencias(numeroEmpleado,nombre,fecha,horaLlegada,retardo) VALUES(?,?,?,?,?)",(self.numeroEmpleado,self.nombre,self.fecha,self.horaLlegada.strftime("%H:%M"),retardo))
             conexion.commit()
             cursor.close()
             return 0
