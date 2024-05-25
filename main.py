@@ -96,6 +96,7 @@ class VentanaAdministrador(QWidget):
         self.tablaAsistencias = self.ui.tablaAsistencias
         self.botonActualizarAsistencias = self.ui.botonActualizarAsistencias
         self.botonEliminarAsistencia = self.ui.botonEliminarAsistencia
+        self.botonSalir = self.ui.botonSalir
         self.ventanaInformacionEmpleado = VentanaInformacionEmpleado(self)
         self.cargarTodosLosEmpleados()
         self.cargarTodasLasAsistencias()
@@ -107,8 +108,10 @@ class VentanaAdministrador(QWidget):
         self.botonEliminarEmpleado.clicked.connect(self.eliminarEmpleado)
         self.botonActualizarAsistencias.clicked.connect(self.actualizarAsistencias)
         self.botonEliminarAsistencia.clicked.connect(self.eliminarAsistencia)
+        self.botonSalir.clicked.connect(self.confirmarSalida)
 
-
+    def closeEvent(self,event):
+        self.salir()
 
     def buscarEmpleados(self):
         nombreEmpleado = self.campoBusqueda.text()
@@ -215,6 +218,24 @@ class VentanaAdministrador(QWidget):
             else:
                 QMessageBox.warning(self,"Error al eliminar","No se ha podido eliminar el registro de asistencia.")
 
+    def salir(self):
+        if self.ventanaInformacionEmpleado.abierta is True:
+            self.ventanaInformacionEmpleado.close()
+        self.close()
+
+    def confirmarSalida(self):
+        respuesta = QMessageBox.question(
+            self, 
+            'Confirmación de salida', 
+            '¿Está seguro de que desea salir?', 
+            QMessageBox.Yes | QMessageBox.No, 
+            QMessageBox.No
+        )
+
+        if respuesta == QMessageBox.Yes:
+            self.salir()
+        
+
 class VentanaInformacionEmpleado(QWidget):
     def __init__(self,ventanaOrigen,parent=None):
         super().__init__(parent)
@@ -230,9 +251,13 @@ class VentanaInformacionEmpleado(QWidget):
         self.botonCancelar = self.ui.botonCancelar
         self.numeroEmpleado = -1
         self.editor = False
+        self.abierta = True
 
         self.botonGuardar.clicked.connect(self.guardarEmpleado)
         self.botonCancelar.clicked.connect(self.cerrarVentana)
+
+    def closeEvent(self,event):
+        self.abierta = False
 
     def limpiar(self):
         self.campoNombre.setText("")
@@ -446,7 +471,18 @@ class Asistencia:
     def obtenerTodas():
         try:
             cursor = conexion.cursor()
-            cursor.execute("SELECT * FROM asistencias")
+            cursor.execute("""
+            SELECT 
+                asistencias.*,
+                CASE 
+                    WHEN strftime('%H:%M', asistencias.horaLlegada) > strftime('%H:%M', empleados.horaEntrada) THEN 'Sí'
+                    ELSE 'No'
+                END AS retraso
+            FROM 
+                asistencias
+            JOIN 
+                empleados ON asistencias.numeroEmpleado = empleados.numeroEmpleado
+            """)
             resultados = cursor.fetchall()
             listaAsistencias = list()
             for a in resultados:
@@ -460,21 +496,14 @@ class Asistencia:
     def registrarLlegada(self):
         try:
             self.fecha = datetime.now().date()
-            self.horaLlegada = datetime.now()
+            self.horaLlegada = datetime.now().strftime("%H:%M")
             cursor = conexion.cursor()
             cursor.execute("SELECT numeroEmpleado FROM asistencias WHERE numeroEmpleado=? AND fecha=?",(self.numeroEmpleado,self.fecha))
             registros = cursor.fetchall()
             if len(registros)>=1:
                 cursor.close()
                 return 1
-            cursor.execute("SELECT horaEntrada FROM empleados WHERE numeroEmpleado=?",(self.numeroEmpleado,))
-            registros = cursor.fetchall()
-            entrada = datetime.strptime(registros[0][0],'%H:%M')
-            if self.horaLlegada > entrada:
-                retardo = 'Sí'
-            else:
-                retardo = 'No'
-            cursor.execute("INSERT INTO asistencias(numeroEmpleado,nombre,fecha,horaLlegada,retardo) VALUES(?,?,?,?,?)",(self.numeroEmpleado,self.nombre,self.fecha,self.horaLlegada.strftime("%H:%M"),retardo))
+            cursor.execute("INSERT INTO asistencias(numeroEmpleado,nombre,fecha,horaLlegada) VALUES(?,?,?,?)",(self.numeroEmpleado,self.nombre,self.fecha,self.horaLlegada))
             conexion.commit()
             cursor.close()
             return 0
@@ -486,10 +515,10 @@ class Asistencia:
         try:
             self.fecha = datetime.now().date()
             cursor = conexion.cursor()
-            cursor.execute(f"SELECT horaSalida FROM asistencias WHERE numeroEmpleado=? AND fecha=?",(self.numeroEmpleado,self.fecha))
+            cursor.execute(f"SELECT numeroEmpleado,horaSalida FROM asistencias WHERE numeroEmpleado=? AND fecha=?",(self.numeroEmpleado,self.fecha))
             registros = cursor.fetchall()
+            self.horaSalida = registros[0][1]
             if len(registros)>=1:
-                self.horaSalida = registros[0][0]
                 if self.horaSalida == None or self.horaSalida == '':
                     self.horaSalida = datetime.now().strftime("%H:%M")
                     cursor.execute(f"UPDATE asistencias SET horaSalida=?",(self.horaSalida,))
