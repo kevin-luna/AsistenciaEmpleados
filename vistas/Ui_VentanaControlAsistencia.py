@@ -15,17 +15,68 @@ class Ui_VentanaControlAsistencia(object):
     def setupUi(self, VentanaControlAsistencia):
         VentanaControlAsistencia.setObjectName("VentanaControlAsistencia")
         VentanaControlAsistencia.resize(456, 344)
-        self.gridLayout = QtWidgets.QGridLayout(VentanaControlAsistencia)
-        self.gridLayout.setObjectName("gridLayout")
-        self.botonSalir = QtWidgets.QPushButton(VentanaControlAsistencia)
-        self.botonSalir.setObjectName("botonSalir")
-        self.gridLayout.addWidget(self.botonSalir, 2, 0, 1, 2)
-        self.botonRegistrarLlegada = QtWidgets.QPushButton(VentanaControlAsistencia)
-        self.botonRegistrarLlegada.setObjectName("botonRegistrarLlegada")
-        self.gridLayout.addWidget(self.botonRegistrarLlegada, 1, 0, 1, 1)
+        self.verticalLayout = QtWidgets.QVBoxLayout(VentanaControlAsistencia)
+        self.verticalLayout.setObjectName("verticalLayout")
         self.botonRegistrarSalida = QtWidgets.QPushButton(VentanaControlAsistencia)
+        self.botonRegistrarSalida.setStyleSheet("QPushButton {\n"
+"    border-radius: 15px; /* Redondea los bordes del botón */\n"
+"    background-color: #615298; /* Color de fondo en estado base */\n"
+"    color: white; /* Color del texto */\n"
+"    padding: 10px 20px; /* Espaciado interno */\n"
+"    border: 2px solid #161d41; /* Borde del botón */\n"
+"}\n"
+"\n"
+"QPushButton:hover {\n"
+"    background-color: #9769bb; /* Color de fondo cuando el mouse está encima */\n"
+"    border: 2px solid #5266d3; /* Color del borde cuando el mouse está encima */\n"
+"}\n"
+"\n"
+"QPushButton:pressed {\n"
+"    background-color: #36356c; /* Color de fondo cuando el botón está presionado */\n"
+"    border: 2px solid #161d41; /* Color del borde cuando el botón está presionado */\n"
+"}")
         self.botonRegistrarSalida.setObjectName("botonRegistrarSalida")
-        self.gridLayout.addWidget(self.botonRegistrarSalida, 1, 1, 1, 1)
+        self.verticalLayout.addWidget(self.botonRegistrarSalida)
+        self.botonRegistrarLlegada = QtWidgets.QPushButton(VentanaControlAsistencia)
+        self.botonRegistrarLlegada.setStyleSheet("QPushButton {\n"
+"    border-radius: 15px; /* Redondea los bordes del botón */\n"
+"    background-color: #615298; /* Color de fondo en estado base */\n"
+"    color: white; /* Color del texto */\n"
+"    padding: 10px 20px; /* Espaciado interno */\n"
+"    border: 2px solid #161d41; /* Borde del botón */\n"
+"}\n"
+"\n"
+"QPushButton:hover {\n"
+"    background-color: #9769bb; /* Color de fondo cuando el mouse está encima */\n"
+"    border: 2px solid #5266d3; /* Color del borde cuando el mouse está encima */\n"
+"}\n"
+"\n"
+"QPushButton:pressed {\n"
+"    background-color: #36356c; /* Color de fondo cuando el botón está presionado */\n"
+"    border: 2px solid #161d41; /* Color del borde cuando el botón está presionado */\n"
+"}")
+        self.botonRegistrarLlegada.setObjectName("botonRegistrarLlegada")
+        self.verticalLayout.addWidget(self.botonRegistrarLlegada)
+        self.botonSalir = QtWidgets.QPushButton(VentanaControlAsistencia)
+        self.botonSalir.setStyleSheet("QPushButton {\n"
+"    border-radius: 15px; /* Redondea los bordes del botón */\n"
+"    background-color: #615298; /* Color de fondo en estado base */\n"
+"    color: white; /* Color del texto */\n"
+"    padding: 10px 20px; /* Espaciado interno */\n"
+"    border: 2px solid #161d41; /* Borde del botón */\n"
+"}\n"
+"\n"
+"QPushButton:hover {\n"
+"    background-color: #9769bb; /* Color de fondo cuando el mouse está encima */\n"
+"    border: 2px solid #5266d3; /* Color del borde cuando el mouse está encima */\n"
+"}\n"
+"\n"
+"QPushButton:pressed {\n"
+"    background-color: #36356c; /* Color de fondo cuando el botón está presionado */\n"
+"    border: 2px solid #161d41; /* Color del borde cuando el botón está presionado */\n"
+"}")
+        self.botonSalir.setObjectName("botonSalir")
+        self.verticalLayout.addWidget(self.botonSalir)
 
         self.retranslateUi(VentanaControlAsistencia)
         QtCore.QMetaObject.connectSlotsByName(VentanaControlAsistencia)
@@ -33,7 +84,16 @@ class Ui_VentanaControlAsistencia(object):
     def retranslateUi(self, VentanaControlAsistencia):
         _translate = QtCore.QCoreApplication.translate
         VentanaControlAsistencia.setWindowTitle(_translate("VentanaControlAsistencia", "JEB - Control de asistencia"))
-        self.botonSalir.setText(_translate("VentanaControlAsistencia", "Salir"))
-        self.botonRegistrarLlegada.setText(_translate("VentanaControlAsistencia", "Registrar llegada"))
         self.botonRegistrarSalida.setText(_translate("VentanaControlAsistencia", "Registrar salida"))
+        self.botonRegistrarLlegada.setText(_translate("VentanaControlAsistencia", "Registrar llegada"))
+        self.botonSalir.setText(_translate("VentanaControlAsistencia", "Salir"))
 
+
+if __name__ == "__main__":
+    import sys
+    app = QtWidgets.QApplication(sys.argv)
+    VentanaControlAsistencia = QtWidgets.QWidget()
+    ui = Ui_VentanaControlAsistencia()
+    ui.setupUi(VentanaControlAsistencia)
+    VentanaControlAsistencia.show()
+    sys.exit(app.exec_())

@@ -13,25 +13,82 @@
   <property name="windowTitle">
    <string>JEB - Control de asistencia</string>
   </property>
-  <layout class="QGridLayout" name="gridLayout">
-   <item row="2" column="0" colspan="2">
-    <widget class="QPushButton" name="botonSalir">
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <widget class="QPushButton" name="botonRegistrarSalida">
+     <property name="styleSheet">
+      <string notr="true">QPushButton {
+    border-radius: 15px; /* Redondea los bordes del botón */
+    background-color: #615298; /* Color de fondo en estado base */
+    color: white; /* Color del texto */
+    padding: 10px 20px; /* Espaciado interno */
+    border: 2px solid #161d41; /* Borde del botón */
+}
+
+QPushButton:hover {
+    background-color: #9769bb; /* Color de fondo cuando el mouse está encima */
+    border: 2px solid #5266d3; /* Color del borde cuando el mouse está encima */
+}
+
+QPushButton:pressed {
+    background-color: #36356c; /* Color de fondo cuando el botón está presionado */
+    border: 2px solid #161d41; /* Color del borde cuando el botón está presionado */
+}</string>
+     </property>
      <property name="text">
-      <string>Salir</string>
+      <string>Registrar salida</string>
      </property>
     </widget>
    </item>
-   <item row="1" column="0">
+   <item>
     <widget class="QPushButton" name="botonRegistrarLlegada">
+     <property name="styleSheet">
+      <string notr="true">QPushButton {
+    border-radius: 15px; /* Redondea los bordes del botón */
+    background-color: #615298; /* Color de fondo en estado base */
+    color: white; /* Color del texto */
+    padding: 10px 20px; /* Espaciado interno */
+    border: 2px solid #161d41; /* Borde del botón */
+}
+
+QPushButton:hover {
+    background-color: #9769bb; /* Color de fondo cuando el mouse está encima */
+    border: 2px solid #5266d3; /* Color del borde cuando el mouse está encima */
+}
+
+QPushButton:pressed {
+    background-color: #36356c; /* Color de fondo cuando el botón está presionado */
+    border: 2px solid #161d41; /* Color del borde cuando el botón está presionado */
+}</string>
+     </property>
      <property name="text">
       <string>Registrar llegada</string>
      </property>
     </widget>
    </item>
-   <item row="1" column="1">
-    <widget class="QPushButton" name="botonRegistrarSalida">
+   <item>
+    <widget class="QPushButton" name="botonSalir">
+     <property name="styleSheet">
+      <string notr="true">QPushButton {
+    border-radius: 15px; /* Redondea los bordes del botón */
+    background-color: #615298; /* Color de fondo en estado base */
+    color: white; /* Color del texto */
+    padding: 10px 20px; /* Espaciado interno */
+    border: 2px solid #161d41; /* Borde del botón */
+}
+
+QPushButton:hover {
+    background-color: #9769bb; /* Color de fondo cuando el mouse está encima */
+    border: 2px solid #5266d3; /* Color del borde cuando el mouse está encima */
+}
+
+QPushButton:pressed {
+    background-color: #36356c; /* Color de fondo cuando el botón está presionado */
+    border: 2px solid #161d41; /* Color del borde cuando el botón está presionado */
+}</string>
+     </property>
      <property name="text">
-      <string>Registrar salida</string>
+      <string>Salir</string>
      </property>
     </widget>
    </item>

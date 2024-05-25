@@ -22,9 +22,43 @@ class Ui_VentanaInformacionEmpleado(object):
         self.horizontalLayout = QtWidgets.QHBoxLayout(self.panelSur)
         self.horizontalLayout.setObjectName("horizontalLayout")
         self.botonGuardarEmpleado = QtWidgets.QPushButton(self.panelSur)
+        self.botonGuardarEmpleado.setStyleSheet("QPushButton {\n"
+"    border-radius: 15px; /* Redondea los bordes del botón */\n"
+"    background-color: #615298; /* Color de fondo en estado base */\n"
+"    color: white; /* Color del texto */\n"
+"    padding: 10px 20px; /* Espaciado interno */\n"
+"    border: 2px solid #161d41; /* Borde del botón */\n"
+"}\n"
+"\n"
+"QPushButton:hover {\n"
+"    background-color: #9769bb; /* Color de fondo cuando el mouse está encima */\n"
+"    border: 2px solid #5266d3; /* Color del borde cuando el mouse está encima */\n"
+"}\n"
+"\n"
+"QPushButton:pressed {\n"
+"    background-color: #36356c; /* Color de fondo cuando el botón está presionado */\n"
+"    border: 2px solid #161d41; /* Color del borde cuando el botón está presionado */\n"
+"}")
         self.botonGuardarEmpleado.setObjectName("botonGuardarEmpleado")
         self.horizontalLayout.addWidget(self.botonGuardarEmpleado)
         self.botonCancelar = QtWidgets.QPushButton(self.panelSur)
+        self.botonCancelar.setStyleSheet("QPushButton {\n"
+"    border-radius: 15px; /* Redondea los bordes del botón */\n"
+"    background-color: #615298; /* Color de fondo en estado base */\n"
+"    color: white; /* Color del texto */\n"
+"    padding: 10px 20px; /* Espaciado interno */\n"
+"    border: 2px solid #161d41; /* Borde del botón */\n"
+"}\n"
+"\n"
+"QPushButton:hover {\n"
+"    background-color: #9769bb; /* Color de fondo cuando el mouse está encima */\n"
+"    border: 2px solid #5266d3; /* Color del borde cuando el mouse está encima */\n"
+"}\n"
+"\n"
+"QPushButton:pressed {\n"
+"    background-color: #36356c; /* Color de fondo cuando el botón está presionado */\n"
+"    border: 2px solid #161d41; /* Color del borde cuando el botón está presionado */\n"
+"}")
         self.botonCancelar.setObjectName("botonCancelar")
         self.horizontalLayout.addWidget(self.botonCancelar)
         self.gridLayout.addWidget(self.panelSur, 1, 0, 1, 1)
@@ -36,12 +70,24 @@ class Ui_VentanaInformacionEmpleado(object):
         self.etiquetaNombre.setObjectName("etiquetaNombre")
         self.formLayout_2.setWidget(1, QtWidgets.QFormLayout.LabelRole, self.etiquetaNombre)
         self.campoNombre = QtWidgets.QLineEdit(self.panelCentro)
+        self.campoNombre.setStyleSheet("QLineEdit{\n"
+"    border-radius: 10px;\n"
+"    padding: 10px 20px;\n"
+"    border: 2px solid #161d41;\n"
+"}\n"
+"")
         self.campoNombre.setObjectName("campoNombre")
         self.formLayout_2.setWidget(1, QtWidgets.QFormLayout.FieldRole, self.campoNombre)
         self.etiquetaClave = QtWidgets.QLabel(self.panelCentro)
         self.etiquetaClave.setObjectName("etiquetaClave")
         self.formLayout_2.setWidget(2, QtWidgets.QFormLayout.LabelRole, self.etiquetaClave)
         self.campoClave = QtWidgets.QLineEdit(self.panelCentro)
+        self.campoClave.setStyleSheet("QLineEdit{\n"
+"    border-radius: 10px;\n"
+"    padding: 10px 20px;\n"
+"    border: 2px solid #161d41;\n"
+"}\n"
+"")
         self.campoClave.setEchoMode(QtWidgets.QLineEdit.Password)
         self.campoClave.setObjectName("campoClave")
         self.formLayout_2.setWidget(2, QtWidgets.QFormLayout.FieldRole, self.campoClave)
@@ -52,15 +98,97 @@ class Ui_VentanaInformacionEmpleado(object):
         self.etiquetaHoraEntrada.setObjectName("etiquetaHoraEntrada")
         self.formLayout_2.setWidget(4, QtWidgets.QFormLayout.LabelRole, self.etiquetaHoraEntrada)
         self.tiempoEntrada = QtWidgets.QTimeEdit(self.panelCentro)
+        self.tiempoEntrada.setStyleSheet("QTimeEdit {\n"
+"    background-color: #ffffff; /* Color de fondo */\n"
+"    color: #615298; /* Color del texto */\n"
+"    border: 2px solid #161d41;\n"
+"    border-radius: 5px; /* Bordes redondeados */\n"
+"    padding: 5px; /* Espaciado interno */\n"
+"    min-width: 100px; /* Ancho mínimo */\n"
+"    font-size: 14px; /* Tamaño de la fuente */\n"
+"}\n"
+"\n"
+"QTimeEdit::up-button {\n"
+"    subcontrol-origin: border;\n"
+"    subcontrol-position: top right;\n"
+"    width: 16px;\n"
+"    border: none; /* Sin borde para el botón */\n"
+"    background-color: #615298; /* Color de fondo del botón de incremento */\n"
+"    border-top-right-radius: 3px; /* Borde redondeado superior derecho */\n"
+"    border-bottom-right-radius: 0px; /* Borde no redondeado inferior derecho */\n"
+"}\n"
+"\n"
+"QTimeEdit::down-button {\n"
+"    subcontrol-origin: border;\n"
+"    subcontrol-position: bottom right;\n"
+"    width: 16px;\n"
+"    border: none; /* Sin borde para el botón */\n"
+"    background-color: #615298; /* Color de fondo del botón de decremento */\n"
+"    border-top-right-radius: 0px; /* Borde no redondeado superior derecho */\n"
+"    border-bottom-right-radius: 3px; /* Borde redondeado inferior derecho */\n"
+"}\n"
+"\n"
+"QTimeEdit::up-button:hover, QTimeEdit::down-button:hover {\n"
+"    background-color: #b57edc; /* Color de fondo cuando el mouse está encima */\n"
+"}\n"
+"\n"
+"QTimeEdit::up-button:pressed, QTimeEdit::down-button:pressed {\n"
+"    background-color: #d4a0ff; /* Color de fondo cuando el botón está presionado */\n"
+"}\n"
+"")
         self.tiempoEntrada.setObjectName("tiempoEntrada")
         self.formLayout_2.setWidget(4, QtWidgets.QFormLayout.FieldRole, self.tiempoEntrada)
         self.etiquetaHoraSalida = QtWidgets.QLabel(self.panelCentro)
         self.etiquetaHoraSalida.setObjectName("etiquetaHoraSalida")
         self.formLayout_2.setWidget(5, QtWidgets.QFormLayout.LabelRole, self.etiquetaHoraSalida)
         self.tiempoSalida = QtWidgets.QTimeEdit(self.panelCentro)
+        self.tiempoSalida.setStyleSheet("QTimeEdit {\n"
+"    background-color: #ffffff; /* Color de fondo */\n"
+"    color: #615298; /* Color del texto */\n"
+"    border: 2px solid #161d41;\n"
+"    border-radius: 5px; /* Bordes redondeados */\n"
+"    padding: 5px; /* Espaciado interno */\n"
+"    min-width: 100px; /* Ancho mínimo */\n"
+"    font-size: 14px; /* Tamaño de la fuente */\n"
+"}\n"
+"\n"
+"QTimeEdit::up-button {\n"
+"    subcontrol-origin: border;\n"
+"    subcontrol-position: top right;\n"
+"    width: 16px;\n"
+"    border: none; /* Sin borde para el botón */\n"
+"    background-color: #615298; /* Color de fondo del botón de incremento */\n"
+"    border-top-right-radius: 3px; /* Borde redondeado superior derecho */\n"
+"    border-bottom-right-radius: 0px; /* Borde no redondeado inferior derecho */\n"
+"}\n"
+"\n"
+"QTimeEdit::down-button {\n"
+"    subcontrol-origin: border;\n"
+"    subcontrol-position: bottom right;\n"
+"    width: 16px;\n"
+"    border: none; /* Sin borde para el botón */\n"
+"    background-color: #615298; /* Color de fondo del botón de decremento */\n"
+"    border-top-right-radius: 0px; /* Borde no redondeado superior derecho */\n"
+"    border-bottom-right-radius: 3px; /* Borde redondeado inferior derecho */\n"
+"}\n"
+"\n"
+"QTimeEdit::up-button:hover, QTimeEdit::down-button:hover {\n"
+"    background-color: #b57edc; /* Color de fondo cuando el mouse está encima */\n"
+"}\n"
+"\n"
+"QTimeEdit::up-button:pressed, QTimeEdit::down-button:pressed {\n"
+"    background-color: #d4a0ff; /* Color de fondo cuando el botón está presionado */\n"
+"}\n"
+"")
         self.tiempoSalida.setObjectName("tiempoSalida")
         self.formLayout_2.setWidget(5, QtWidgets.QFormLayout.FieldRole, self.tiempoSalida)
         self.campoConfirmacionClave = QtWidgets.QLineEdit(self.panelCentro)
+        self.campoConfirmacionClave.setStyleSheet("QLineEdit{\n"
+"    border-radius: 10px;\n"
+"    padding: 10px 20px;\n"
+"    border: 2px solid #161d41;\n"
+"}\n"
+"")
         self.campoConfirmacionClave.setEchoMode(QtWidgets.QLineEdit.Password)
         self.campoConfirmacionClave.setObjectName("campoConfirmacionClave")
         self.formLayout_2.setWidget(3, QtWidgets.QFormLayout.FieldRole, self.campoConfirmacionClave)

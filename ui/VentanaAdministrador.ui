@@ -14,10 +14,58 @@
    <string>JEB - Panel de administracion</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="0" column="0">
+   <item row="0" column="1">
+    <widget class="QPushButton" name="pushButton">
+     <property name="text">
+      <string/>
+     </property>
+     <property name="icon">
+      <iconset>
+       <normaloff>logout.png</normaloff>logout.png</iconset>
+     </property>
+     <property name="iconSize">
+      <size>
+       <width>40</width>
+       <height>40</height>
+      </size>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="0" colspan="2">
     <widget class="QTabWidget" name="tabVistas">
+     <property name="styleSheet">
+      <string notr="true">QTabWidget::pane { 
+    border: 1px solid #615298; 
+}
+
+QTabBar::tab {
+	background: #f1f3f5;
+    padding: 10px 20px;
+	border-top-right-radius: 10px; 
+    border-bottom: 3px solid transparent; /* Línea inferior transparente por defecto */
+}
+
+QTabBar::tab:hover {/* Color de fondo cuando el mouse está encima */
+	background: #e9ecef;
+    border-bottom: 3px solid transparent; /* Línea inferior cuando el mouse está encima */
+}
+
+QTabBar::tab:selected { /* Color de fondo cuando la pestaña está seleccionada */
+	background: #dee2e6;
+    border-bottom: 3px solid #615298; /* Línea inferior cuando la pestaña está seleccionada */
+}
+
+QTabBar::tab:!selected {/* Color de fondo cuando la pestaña no está seleccionada */
+	background: #f1f3f5;
+    border-bottom: 3px solid transparent; /* Línea inferior transparente cuando la pestaña no está seleccionada */
+}
+</string>
+     </property>
      <property name="tabPosition">
       <enum>QTabWidget::North</enum>
+     </property>
+     <property name="tabShape">
+      <enum>QTabWidget::Rounded</enum>
      </property>
      <property name="currentIndex">
       <number>0</number>
@@ -30,18 +78,114 @@
        <string>Empleados</string>
       </attribute>
       <layout class="QGridLayout" name="gridLayout_3">
-       <item row="0" column="1">
-        <widget class="QLineEdit" name="campoBusqueda">
-         <property name="placeholderText">
-          <string>Nombre del empleado</string>
-         </property>
-        </widget>
-       </item>
        <item row="0" column="2">
         <widget class="QPushButton" name="botonBuscar">
+         <property name="styleSheet">
+          <string notr="true">QPushButton {
+    border-radius: 15px; /* Redondea los bordes del botón */
+    background-color: #615298; /* Color de fondo en estado base */
+    color: white; /* Color del texto */
+    padding: 10px 20px; /* Espaciado interno */
+    border: 2px solid #161d41; /* Borde del botón */
+}
+
+QPushButton:hover {
+    background-color: #9769bb; /* Color de fondo cuando el mouse está encima */
+    border: 2px solid #5266d3; /* Color del borde cuando el mouse está encima */
+}
+
+QPushButton:pressed {
+    background-color: #36356c; /* Color de fondo cuando el botón está presionado */
+    border: 2px solid #161d41; /* Color del borde cuando el botón está presionado */
+}</string>
+         </property>
          <property name="text">
           <string>Buscar</string>
          </property>
+        </widget>
+       </item>
+       <item row="2" column="0" colspan="3">
+        <widget class="QWidget" name="panelSur" native="true">
+         <layout class="QHBoxLayout" name="horizontalLayout">
+          <item>
+           <widget class="QPushButton" name="botonAgregarEmpleado">
+            <property name="styleSheet">
+             <string notr="true">QPushButton {
+    border-radius: 15px; /* Redondea los bordes del botón */
+    background-color: #615298; /* Color de fondo en estado base */
+    color: white; /* Color del texto */
+    padding: 10px 20px; /* Espaciado interno */
+    border: 2px solid #161d41; /* Borde del botón */
+}
+
+QPushButton:hover {
+    background-color: #9769bb; /* Color de fondo cuando el mouse está encima */
+    border: 2px solid #5266d3; /* Color del borde cuando el mouse está encima */
+}
+
+QPushButton:pressed {
+    background-color: #36356c; /* Color de fondo cuando el botón está presionado */
+    border: 2px solid #161d41; /* Color del borde cuando el botón está presionado */
+}</string>
+            </property>
+            <property name="text">
+             <string>Nuevo empleado</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="botonEditarEmpleado">
+            <property name="styleSheet">
+             <string notr="true">QPushButton {
+    border-radius: 15px; /* Redondea los bordes del botón */
+    background-color: #615298; /* Color de fondo en estado base */
+    color: white; /* Color del texto */
+    padding: 10px 20px; /* Espaciado interno */
+    border: 2px solid #161d41; /* Borde del botón */
+}
+
+QPushButton:hover {
+    background-color: #9769bb; /* Color de fondo cuando el mouse está encima */
+    border: 2px solid #5266d3; /* Color del borde cuando el mouse está encima */
+}
+
+QPushButton:pressed {
+    background-color: #36356c; /* Color de fondo cuando el botón está presionado */
+    border: 2px solid #161d41; /* Color del borde cuando el botón está presionado */
+}</string>
+            </property>
+            <property name="text">
+             <string>Editar empleado</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="botonEliminarEmpleado">
+            <property name="styleSheet">
+             <string notr="true">QPushButton {
+    border-radius: 15px; /* Redondea los bordes del botón */
+    background-color: #615298; /* Color de fondo en estado base */
+    color: white; /* Color del texto */
+    padding: 10px 20px; /* Espaciado interno */
+    border: 2px solid #161d41; /* Borde del botón */
+}
+
+QPushButton:hover {
+    background-color: #9769bb; /* Color de fondo cuando el mouse está encima */
+    border: 2px solid #5266d3; /* Color del borde cuando el mouse está encima */
+}
+
+QPushButton:pressed {
+    background-color: #36356c; /* Color de fondo cuando el botón está presionado */
+    border: 2px solid #161d41; /* Color del borde cuando el botón está presionado */
+}</string>
+            </property>
+            <property name="text">
+             <string>Eliminar empleado</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
         </widget>
        </item>
        <item row="0" column="0">
@@ -51,8 +195,61 @@
          </property>
         </widget>
        </item>
+       <item row="0" column="1">
+        <widget class="QLineEdit" name="campoBusqueda">
+         <property name="styleSheet">
+          <string notr="true">QLineEdit{
+	border-radius: 10px;
+	padding: 8px 20px;
+	border: 2px solid #161d41;
+}
+</string>
+         </property>
+         <property name="placeholderText">
+          <string>Nombre del empleado</string>
+         </property>
+        </widget>
+       </item>
        <item row="1" column="0" colspan="3">
         <widget class="QTableWidget" name="tablaEmpleados">
+         <property name="styleSheet">
+          <string notr="true">QTableWidget {
+    background-color: #ffffff; /* Color de fondo principal */
+    gridline-color: #615298; /* Color de las líneas de la cuadrícula */
+    border: 1px solid #615298; /* Borde del widget */
+    font-size: 14px; /* Tamaño de la fuente */
+    color: #615298; /* Color del texto */
+}
+
+QHeaderView::section {
+    background-color: #855299; /* Color de fondo del encabezado */
+    color: white; /* Color del texto del encabezado */
+    padding: 5px;
+    border: 1px solid #855299; /* Borde del encabezado */
+}
+
+QTableWidget::item {
+    padding: 10px;
+}
+
+QTableWidget::item:selected {
+    background-color: #b57edc; /* Color de fondo cuando el ítem está seleccionado */
+    color: white; /* Color del texto cuando el ítem está seleccionado */
+}
+
+QTableWidget::item:alternate {
+    background-color: #f3e5f5; /* Color de fondo de las filas alternadas */
+}
+
+QTableWidget::item:nth-child(even) {
+    background-color: #ffffff; /* Color de fondo de las filas pares */
+}
+
+QTableWidget::item:nth-child(odd) {
+    background-color: #f3e5f5; /* Color de fondo de las filas impares */
+}
+</string>
+         </property>
          <property name="editTriggers">
           <set>QAbstractItemView::NoEditTriggers</set>
          </property>
@@ -87,33 +284,6 @@
          </column>
         </widget>
        </item>
-       <item row="2" column="0" colspan="3">
-        <widget class="QWidget" name="panelSur" native="true">
-         <layout class="QHBoxLayout" name="horizontalLayout">
-          <item>
-           <widget class="QPushButton" name="botonAgregarEmpleado">
-            <property name="text">
-             <string>Nuevo empleado</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QPushButton" name="botonEditarEmpleado">
-            <property name="text">
-             <string>Editar empleado</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QPushButton" name="botonEliminarEmpleado">
-            <property name="text">
-             <string>Eliminar empleado</string>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </widget>
-       </item>
       </layout>
      </widget>
      <widget class="QWidget" name="vistaAsistencias">
@@ -123,6 +293,44 @@
       <layout class="QGridLayout" name="gridLayout_2">
        <item row="0" column="0">
         <widget class="QTableWidget" name="tablaAsistencias">
+         <property name="styleSheet">
+          <string notr="true">QTableWidget {
+    background-color: #ffffff; /* Color de fondo principal */
+    gridline-color: #615298; /* Color de las líneas de la cuadrícula */
+    border: 1px solid #615298; /* Borde del widget */
+    font-size: 14px; /* Tamaño de la fuente */
+    color: #615298; /* Color del texto */
+}
+
+QHeaderView::section {
+    background-color: #855299; /* Color de fondo del encabezado */
+    color: white; /* Color del texto del encabezado */
+    padding: 5px;
+    border: 1px solid #855299; /* Borde del encabezado */
+}
+
+QTableWidget::item {
+    padding: 10px;
+}
+
+QTableWidget::item:selected {
+    background-color: #b57edc; /* Color de fondo cuando el ítem está seleccionado */
+    color: white; /* Color del texto cuando el ítem está seleccionado */
+}
+
+QTableWidget::item:alternate {
+    background-color: #f3e5f5; /* Color de fondo de las filas alternadas */
+}
+
+QTableWidget::item:nth-child(even) {
+    background-color: #ffffff; /* Color de fondo de las filas pares */
+}
+
+QTableWidget::item:nth-child(odd) {
+    background-color: #f3e5f5; /* Color de fondo de las filas impares */
+}
+</string>
+         </property>
          <property name="editTriggers">
           <set>QAbstractItemView::NoEditTriggers</set>
          </property>
@@ -166,6 +374,25 @@
          <layout class="QHBoxLayout" name="horizontalLayout_2">
           <item>
            <widget class="QPushButton" name="botonActualizarAsistencias">
+            <property name="styleSheet">
+             <string notr="true">QPushButton {
+    border-radius: 15px; /* Redondea los bordes del botón */
+    background-color: #615298; /* Color de fondo en estado base */
+    color: white; /* Color del texto */
+    padding: 10px 20px; /* Espaciado interno */
+    border: 2px solid #161d41; /* Borde del botón */
+}
+
+QPushButton:hover {
+    background-color: #9769bb; /* Color de fondo cuando el mouse está encima */
+    border: 2px solid #5266d3; /* Color del borde cuando el mouse está encima */
+}
+
+QPushButton:pressed {
+    background-color: #36356c; /* Color de fondo cuando el botón está presionado */
+    border: 2px solid #161d41; /* Color del borde cuando el botón está presionado */
+}</string>
+            </property>
             <property name="text">
              <string>Actualizar</string>
             </property>
@@ -173,6 +400,25 @@
           </item>
           <item>
            <widget class="QPushButton" name="botonEliminarAsistencia">
+            <property name="styleSheet">
+             <string notr="true">QPushButton {
+    border-radius: 15px; /* Redondea los bordes del botón */
+    background-color: #615298; /* Color de fondo en estado base */
+    color: white; /* Color del texto */
+    padding: 10px 20px; /* Espaciado interno */
+    border: 2px solid #161d41; /* Borde del botón */
+}
+
+QPushButton:hover {
+    background-color: #9769bb; /* Color de fondo cuando el mouse está encima */
+    border: 2px solid #5266d3; /* Color del borde cuando el mouse está encima */
+}
+
+QPushButton:pressed {
+    background-color: #36356c; /* Color de fondo cuando el botón está presionado */
+    border: 2px solid #161d41; /* Color del borde cuando el botón está presionado */
+}</string>
+            </property>
             <property name="text">
              <string>Eliminar asistencia</string>
             </property>
@@ -184,6 +430,19 @@
       </layout>
      </widget>
     </widget>
+   </item>
+   <item row="0" column="0">
+    <spacer name="horizontalSpacer">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>40</width>
+       <height>20</height>
+      </size>
+     </property>
+    </spacer>
    </item>
   </layout>
  </widget>

@@ -19,6 +19,25 @@
      <layout class="QHBoxLayout" name="horizontalLayout">
       <item>
        <widget class="QPushButton" name="botonGuardarEmpleado">
+        <property name="styleSheet">
+         <string notr="true">QPushButton {
+    border-radius: 15px; /* Redondea los bordes del botón */
+    background-color: #615298; /* Color de fondo en estado base */
+    color: white; /* Color del texto */
+    padding: 10px 20px; /* Espaciado interno */
+    border: 2px solid #161d41; /* Borde del botón */
+}
+
+QPushButton:hover {
+    background-color: #9769bb; /* Color de fondo cuando el mouse está encima */
+    border: 2px solid #5266d3; /* Color del borde cuando el mouse está encima */
+}
+
+QPushButton:pressed {
+    background-color: #36356c; /* Color de fondo cuando el botón está presionado */
+    border: 2px solid #161d41; /* Color del borde cuando el botón está presionado */
+}</string>
+        </property>
         <property name="text">
          <string>Guardar</string>
         </property>
@@ -26,6 +45,25 @@
       </item>
       <item>
        <widget class="QPushButton" name="botonCancelar">
+        <property name="styleSheet">
+         <string notr="true">QPushButton {
+    border-radius: 15px; /* Redondea los bordes del botón */
+    background-color: #615298; /* Color de fondo en estado base */
+    color: white; /* Color del texto */
+    padding: 10px 20px; /* Espaciado interno */
+    border: 2px solid #161d41; /* Borde del botón */
+}
+
+QPushButton:hover {
+    background-color: #9769bb; /* Color de fondo cuando el mouse está encima */
+    border: 2px solid #5266d3; /* Color del borde cuando el mouse está encima */
+}
+
+QPushButton:pressed {
+    background-color: #36356c; /* Color de fondo cuando el botón está presionado */
+    border: 2px solid #161d41; /* Color del borde cuando el botón está presionado */
+}</string>
+        </property>
         <property name="text">
          <string>Cancelar</string>
         </property>
@@ -45,7 +83,16 @@
        </widget>
       </item>
       <item row="1" column="1">
-       <widget class="QLineEdit" name="campoNombre"/>
+       <widget class="QLineEdit" name="campoNombre">
+        <property name="styleSheet">
+         <string notr="true">QLineEdit{
+	border-radius: 10px;
+	padding: 10px 20px;
+	border: 2px solid #161d41;
+}
+</string>
+        </property>
+       </widget>
       </item>
       <item row="2" column="0">
        <widget class="QLabel" name="etiquetaClave">
@@ -56,6 +103,14 @@
       </item>
       <item row="2" column="1">
        <widget class="QLineEdit" name="campoClave">
+        <property name="styleSheet">
+         <string notr="true">QLineEdit{
+	border-radius: 10px;
+	padding: 10px 20px;
+	border: 2px solid #161d41;
+}
+</string>
+        </property>
         <property name="echoMode">
          <enum>QLineEdit::Password</enum>
         </property>
@@ -77,6 +132,46 @@
       </item>
       <item row="4" column="1">
        <widget class="QTimeEdit" name="tiempoEntrada">
+        <property name="styleSheet">
+         <string notr="true">QTimeEdit {
+    background-color: #ffffff; /* Color de fondo */
+    color: #615298; /* Color del texto */
+	border: 2px solid #161d41;
+    border-radius: 5px; /* Bordes redondeados */
+    padding: 5px; /* Espaciado interno */
+    min-width: 100px; /* Ancho mínimo */
+    font-size: 14px; /* Tamaño de la fuente */
+}
+
+QTimeEdit::up-button {
+    subcontrol-origin: border;
+    subcontrol-position: top right;
+    width: 16px;
+    border: none; /* Sin borde para el botón */
+    background-color: #615298; /* Color de fondo del botón de incremento */
+    border-top-right-radius: 3px; /* Borde redondeado superior derecho */
+    border-bottom-right-radius: 0px; /* Borde no redondeado inferior derecho */
+}
+
+QTimeEdit::down-button {
+    subcontrol-origin: border;
+    subcontrol-position: bottom right;
+    width: 16px;
+    border: none; /* Sin borde para el botón */
+    background-color: #615298; /* Color de fondo del botón de decremento */
+    border-top-right-radius: 0px; /* Borde no redondeado superior derecho */
+    border-bottom-right-radius: 3px; /* Borde redondeado inferior derecho */
+}
+
+QTimeEdit::up-button:hover, QTimeEdit::down-button:hover {
+    background-color: #b57edc; /* Color de fondo cuando el mouse está encima */
+}
+
+QTimeEdit::up-button:pressed, QTimeEdit::down-button:pressed {
+    background-color: #d4a0ff; /* Color de fondo cuando el botón está presionado */
+}
+</string>
+        </property>
         <property name="displayFormat">
          <string>hh:mm</string>
         </property>
@@ -91,6 +186,46 @@
       </item>
       <item row="5" column="1">
        <widget class="QTimeEdit" name="tiempoSalida">
+        <property name="styleSheet">
+         <string notr="true">QTimeEdit {
+    background-color: #ffffff; /* Color de fondo */
+    color: #615298; /* Color del texto */
+	border: 2px solid #161d41;
+    border-radius: 5px; /* Bordes redondeados */
+    padding: 5px; /* Espaciado interno */
+    min-width: 100px; /* Ancho mínimo */
+    font-size: 14px; /* Tamaño de la fuente */
+}
+
+QTimeEdit::up-button {
+    subcontrol-origin: border;
+    subcontrol-position: top right;
+    width: 16px;
+    border: none; /* Sin borde para el botón */
+    background-color: #615298; /* Color de fondo del botón de incremento */
+    border-top-right-radius: 3px; /* Borde redondeado superior derecho */
+    border-bottom-right-radius: 0px; /* Borde no redondeado inferior derecho */
+}
+
+QTimeEdit::down-button {
+    subcontrol-origin: border;
+    subcontrol-position: bottom right;
+    width: 16px;
+    border: none; /* Sin borde para el botón */
+    background-color: #615298; /* Color de fondo del botón de decremento */
+    border-top-right-radius: 0px; /* Borde no redondeado superior derecho */
+    border-bottom-right-radius: 3px; /* Borde redondeado inferior derecho */
+}
+
+QTimeEdit::up-button:hover, QTimeEdit::down-button:hover {
+    background-color: #b57edc; /* Color de fondo cuando el mouse está encima */
+}
+
+QTimeEdit::up-button:pressed, QTimeEdit::down-button:pressed {
+    background-color: #d4a0ff; /* Color de fondo cuando el botón está presionado */
+}
+</string>
+        </property>
         <property name="displayFormat">
          <string>hh:mm</string>
         </property>
@@ -98,6 +233,14 @@
       </item>
       <item row="3" column="1">
        <widget class="QLineEdit" name="campoConfirmacionClave">
+        <property name="styleSheet">
+         <string notr="true">QLineEdit{
+	border-radius: 10px;
+	padding: 10px 20px;
+	border: 2px solid #161d41;
+}
+</string>
+        </property>
         <property name="echoMode">
          <enum>QLineEdit::Password</enum>
         </property>

@@ -17,24 +17,183 @@ class Ui_VentanaAdministrador(object):
         VentanaAdministrador.resize(677, 512)
         self.gridLayout = QtWidgets.QGridLayout(VentanaAdministrador)
         self.gridLayout.setObjectName("gridLayout")
+        self.pushButton = QtWidgets.QPushButton(VentanaAdministrador)
+        self.pushButton.setText("")
+        icon = QtGui.QIcon()
+        icon.addPixmap(QtGui.QPixmap("media/logout.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.pushButton.setIcon(icon)
+        self.pushButton.setIconSize(QtCore.QSize(40, 40))
+        self.pushButton.setObjectName("pushButton")
+        self.gridLayout.addWidget(self.pushButton, 0, 1, 1, 1)
         self.tabVistas = QtWidgets.QTabWidget(VentanaAdministrador)
+        self.tabVistas.setStyleSheet("QTabWidget::pane { \n"
+"    border: 1px solid #615298; \n"
+"}\n"
+"\n"
+"QTabBar::tab {\n"
+"    background: #f1f3f5;\n"
+"    padding: 10px 20px;\n"
+"    border-top-right-radius: 10px; \n"
+"    border-bottom: 3px solid transparent; /* Línea inferior transparente por defecto */\n"
+"}\n"
+"\n"
+"QTabBar::tab:hover {/* Color de fondo cuando el mouse está encima */\n"
+"    background: #e9ecef;\n"
+"    border-bottom: 3px solid transparent; /* Línea inferior cuando el mouse está encima */\n"
+"}\n"
+"\n"
+"QTabBar::tab:selected { /* Color de fondo cuando la pestaña está seleccionada */\n"
+"    background: #dee2e6;\n"
+"    border-bottom: 3px solid #615298; /* Línea inferior cuando la pestaña está seleccionada */\n"
+"}\n"
+"\n"
+"QTabBar::tab:!selected {/* Color de fondo cuando la pestaña no está seleccionada */\n"
+"    background: #f1f3f5;\n"
+"    border-bottom: 3px solid transparent; /* Línea inferior transparente cuando la pestaña no está seleccionada */\n"
+"}\n"
+"")
         self.tabVistas.setTabPosition(QtWidgets.QTabWidget.North)
+        self.tabVistas.setTabShape(QtWidgets.QTabWidget.Rounded)
         self.tabVistas.setObjectName("tabVistas")
         self.vistaEmpleados = QtWidgets.QWidget()
         self.vistaEmpleados.setLayoutDirection(QtCore.Qt.LeftToRight)
         self.vistaEmpleados.setObjectName("vistaEmpleados")
         self.gridLayout_3 = QtWidgets.QGridLayout(self.vistaEmpleados)
         self.gridLayout_3.setObjectName("gridLayout_3")
-        self.campoBusqueda = QtWidgets.QLineEdit(self.vistaEmpleados)
-        self.campoBusqueda.setObjectName("campoBusqueda")
-        self.gridLayout_3.addWidget(self.campoBusqueda, 0, 1, 1, 1)
         self.botonBuscar = QtWidgets.QPushButton(self.vistaEmpleados)
+        self.botonBuscar.setStyleSheet("QPushButton {\n"
+"    border-radius: 15px; /* Redondea los bordes del botón */\n"
+"    background-color: #615298; /* Color de fondo en estado base */\n"
+"    color: white; /* Color del texto */\n"
+"    padding: 10px 20px; /* Espaciado interno */\n"
+"    border: 2px solid #161d41; /* Borde del botón */\n"
+"}\n"
+"\n"
+"QPushButton:hover {\n"
+"    background-color: #9769bb; /* Color de fondo cuando el mouse está encima */\n"
+"    border: 2px solid #5266d3; /* Color del borde cuando el mouse está encima */\n"
+"}\n"
+"\n"
+"QPushButton:pressed {\n"
+"    background-color: #36356c; /* Color de fondo cuando el botón está presionado */\n"
+"    border: 2px solid #161d41; /* Color del borde cuando el botón está presionado */\n"
+"}")
         self.botonBuscar.setObjectName("botonBuscar")
         self.gridLayout_3.addWidget(self.botonBuscar, 0, 2, 1, 1)
+        self.panelSur = QtWidgets.QWidget(self.vistaEmpleados)
+        self.panelSur.setObjectName("panelSur")
+        self.horizontalLayout = QtWidgets.QHBoxLayout(self.panelSur)
+        self.horizontalLayout.setObjectName("horizontalLayout")
+        self.botonAgregarEmpleado = QtWidgets.QPushButton(self.panelSur)
+        self.botonAgregarEmpleado.setStyleSheet("QPushButton {\n"
+"    border-radius: 15px; /* Redondea los bordes del botón */\n"
+"    background-color: #615298; /* Color de fondo en estado base */\n"
+"    color: white; /* Color del texto */\n"
+"    padding: 10px 20px; /* Espaciado interno */\n"
+"    border: 2px solid #161d41; /* Borde del botón */\n"
+"}\n"
+"\n"
+"QPushButton:hover {\n"
+"    background-color: #9769bb; /* Color de fondo cuando el mouse está encima */\n"
+"    border: 2px solid #5266d3; /* Color del borde cuando el mouse está encima */\n"
+"}\n"
+"\n"
+"QPushButton:pressed {\n"
+"    background-color: #36356c; /* Color de fondo cuando el botón está presionado */\n"
+"    border: 2px solid #161d41; /* Color del borde cuando el botón está presionado */\n"
+"}")
+        self.botonAgregarEmpleado.setObjectName("botonAgregarEmpleado")
+        self.horizontalLayout.addWidget(self.botonAgregarEmpleado)
+        self.botonEditarEmpleado = QtWidgets.QPushButton(self.panelSur)
+        self.botonEditarEmpleado.setStyleSheet("QPushButton {\n"
+"    border-radius: 15px; /* Redondea los bordes del botón */\n"
+"    background-color: #615298; /* Color de fondo en estado base */\n"
+"    color: white; /* Color del texto */\n"
+"    padding: 10px 20px; /* Espaciado interno */\n"
+"    border: 2px solid #161d41; /* Borde del botón */\n"
+"}\n"
+"\n"
+"QPushButton:hover {\n"
+"    background-color: #9769bb; /* Color de fondo cuando el mouse está encima */\n"
+"    border: 2px solid #5266d3; /* Color del borde cuando el mouse está encima */\n"
+"}\n"
+"\n"
+"QPushButton:pressed {\n"
+"    background-color: #36356c; /* Color de fondo cuando el botón está presionado */\n"
+"    border: 2px solid #161d41; /* Color del borde cuando el botón está presionado */\n"
+"}")
+        self.botonEditarEmpleado.setObjectName("botonEditarEmpleado")
+        self.horizontalLayout.addWidget(self.botonEditarEmpleado)
+        self.botonEliminarEmpleado = QtWidgets.QPushButton(self.panelSur)
+        self.botonEliminarEmpleado.setStyleSheet("QPushButton {\n"
+"    border-radius: 15px; /* Redondea los bordes del botón */\n"
+"    background-color: #615298; /* Color de fondo en estado base */\n"
+"    color: white; /* Color del texto */\n"
+"    padding: 10px 20px; /* Espaciado interno */\n"
+"    border: 2px solid #161d41; /* Borde del botón */\n"
+"}\n"
+"\n"
+"QPushButton:hover {\n"
+"    background-color: #9769bb; /* Color de fondo cuando el mouse está encima */\n"
+"    border: 2px solid #5266d3; /* Color del borde cuando el mouse está encima */\n"
+"}\n"
+"\n"
+"QPushButton:pressed {\n"
+"    background-color: #36356c; /* Color de fondo cuando el botón está presionado */\n"
+"    border: 2px solid #161d41; /* Color del borde cuando el botón está presionado */\n"
+"}")
+        self.botonEliminarEmpleado.setObjectName("botonEliminarEmpleado")
+        self.horizontalLayout.addWidget(self.botonEliminarEmpleado)
+        self.gridLayout_3.addWidget(self.panelSur, 2, 0, 1, 3)
         self.etiquetaBuscar = QtWidgets.QLabel(self.vistaEmpleados)
         self.etiquetaBuscar.setObjectName("etiquetaBuscar")
         self.gridLayout_3.addWidget(self.etiquetaBuscar, 0, 0, 1, 1)
+        self.campoBusqueda = QtWidgets.QLineEdit(self.vistaEmpleados)
+        self.campoBusqueda.setStyleSheet("QLineEdit{\n"
+"    border-radius: 10px;\n"
+"    padding: 8px 20px;\n"
+"    border: 2px solid #161d41;\n"
+"}\n"
+"")
+        self.campoBusqueda.setObjectName("campoBusqueda")
+        self.gridLayout_3.addWidget(self.campoBusqueda, 0, 1, 1, 1)
         self.tablaEmpleados = QtWidgets.QTableWidget(self.vistaEmpleados)
+        self.tablaEmpleados.setStyleSheet("QTableWidget {\n"
+"    background-color: #ffffff; /* Color de fondo principal */\n"
+"    gridline-color: #615298; /* Color de las líneas de la cuadrícula */\n"
+"    border: 1px solid #615298; /* Borde del widget */\n"
+"    font-size: 14px; /* Tamaño de la fuente */\n"
+"    color: #615298; /* Color del texto */\n"
+"}\n"
+"\n"
+"QHeaderView::section {\n"
+"    background-color: #855299; /* Color de fondo del encabezado */\n"
+"    color: white; /* Color del texto del encabezado */\n"
+"    padding: 5px;\n"
+"    border: 1px solid #855299; /* Borde del encabezado */\n"
+"}\n"
+"\n"
+"QTableWidget::item {\n"
+"    padding: 10px;\n"
+"}\n"
+"\n"
+"QTableWidget::item:selected {\n"
+"    background-color: #b57edc; /* Color de fondo cuando el ítem está seleccionado */\n"
+"    color: white; /* Color del texto cuando el ítem está seleccionado */\n"
+"}\n"
+"\n"
+"QTableWidget::item:alternate {\n"
+"    background-color: #f3e5f5; /* Color de fondo de las filas alternadas */\n"
+"}\n"
+"\n"
+"QTableWidget::item:nth-child(even) {\n"
+"    background-color: #ffffff; /* Color de fondo de las filas pares */\n"
+"}\n"
+"\n"
+"QTableWidget::item:nth-child(odd) {\n"
+"    background-color: #f3e5f5; /* Color de fondo de las filas impares */\n"
+"}\n"
+"")
         self.tablaEmpleados.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
         self.tablaEmpleados.setObjectName("tablaEmpleados")
         self.tablaEmpleados.setColumnCount(4)
@@ -51,26 +210,48 @@ class Ui_VentanaAdministrador(object):
         self.tablaEmpleados.horizontalHeader().setStretchLastSection(True)
         self.tablaEmpleados.verticalHeader().setStretchLastSection(False)
         self.gridLayout_3.addWidget(self.tablaEmpleados, 1, 0, 1, 3)
-        self.panelSur = QtWidgets.QWidget(self.vistaEmpleados)
-        self.panelSur.setObjectName("panelSur")
-        self.horizontalLayout = QtWidgets.QHBoxLayout(self.panelSur)
-        self.horizontalLayout.setObjectName("horizontalLayout")
-        self.botonAgregarEmpleado = QtWidgets.QPushButton(self.panelSur)
-        self.botonAgregarEmpleado.setObjectName("botonAgregarEmpleado")
-        self.horizontalLayout.addWidget(self.botonAgregarEmpleado)
-        self.botonEditarEmpleado = QtWidgets.QPushButton(self.panelSur)
-        self.botonEditarEmpleado.setObjectName("botonEditarEmpleado")
-        self.horizontalLayout.addWidget(self.botonEditarEmpleado)
-        self.botonEliminarEmpleado = QtWidgets.QPushButton(self.panelSur)
-        self.botonEliminarEmpleado.setObjectName("botonEliminarEmpleado")
-        self.horizontalLayout.addWidget(self.botonEliminarEmpleado)
-        self.gridLayout_3.addWidget(self.panelSur, 2, 0, 1, 3)
         self.tabVistas.addTab(self.vistaEmpleados, "")
         self.vistaAsistencias = QtWidgets.QWidget()
         self.vistaAsistencias.setObjectName("vistaAsistencias")
         self.gridLayout_2 = QtWidgets.QGridLayout(self.vistaAsistencias)
         self.gridLayout_2.setObjectName("gridLayout_2")
         self.tablaAsistencias = QtWidgets.QTableWidget(self.vistaAsistencias)
+        self.tablaAsistencias.setStyleSheet("QTableWidget {\n"
+"    background-color: #ffffff; /* Color de fondo principal */\n"
+"    gridline-color: #615298; /* Color de las líneas de la cuadrícula */\n"
+"    border: 1px solid #615298; /* Borde del widget */\n"
+"    font-size: 14px; /* Tamaño de la fuente */\n"
+"    color: #615298; /* Color del texto */\n"
+"}\n"
+"\n"
+"QHeaderView::section {\n"
+"    background-color: #855299; /* Color de fondo del encabezado */\n"
+"    color: white; /* Color del texto del encabezado */\n"
+"    padding: 5px;\n"
+"    border: 1px solid #855299; /* Borde del encabezado */\n"
+"}\n"
+"\n"
+"QTableWidget::item {\n"
+"    padding: 10px;\n"
+"}\n"
+"\n"
+"QTableWidget::item:selected {\n"
+"    background-color: #b57edc; /* Color de fondo cuando el ítem está seleccionado */\n"
+"    color: white; /* Color del texto cuando el ítem está seleccionado */\n"
+"}\n"
+"\n"
+"QTableWidget::item:alternate {\n"
+"    background-color: #f3e5f5; /* Color de fondo de las filas alternadas */\n"
+"}\n"
+"\n"
+"QTableWidget::item:nth-child(even) {\n"
+"    background-color: #ffffff; /* Color de fondo de las filas pares */\n"
+"}\n"
+"\n"
+"QTableWidget::item:nth-child(odd) {\n"
+"    background-color: #f3e5f5; /* Color de fondo de las filas impares */\n"
+"}\n"
+"")
         self.tablaAsistencias.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
         self.tablaAsistencias.setObjectName("tablaAsistencias")
         self.tablaAsistencias.setColumnCount(6)
@@ -94,14 +275,50 @@ class Ui_VentanaAdministrador(object):
         self.horizontalLayout_2 = QtWidgets.QHBoxLayout(self.panelSur_2)
         self.horizontalLayout_2.setObjectName("horizontalLayout_2")
         self.botonActualizarAsistencias = QtWidgets.QPushButton(self.panelSur_2)
+        self.botonActualizarAsistencias.setStyleSheet("QPushButton {\n"
+"    border-radius: 15px; /* Redondea los bordes del botón */\n"
+"    background-color: #615298; /* Color de fondo en estado base */\n"
+"    color: white; /* Color del texto */\n"
+"    padding: 10px 20px; /* Espaciado interno */\n"
+"    border: 2px solid #161d41; /* Borde del botón */\n"
+"}\n"
+"\n"
+"QPushButton:hover {\n"
+"    background-color: #9769bb; /* Color de fondo cuando el mouse está encima */\n"
+"    border: 2px solid #5266d3; /* Color del borde cuando el mouse está encima */\n"
+"}\n"
+"\n"
+"QPushButton:pressed {\n"
+"    background-color: #36356c; /* Color de fondo cuando el botón está presionado */\n"
+"    border: 2px solid #161d41; /* Color del borde cuando el botón está presionado */\n"
+"}")
         self.botonActualizarAsistencias.setObjectName("botonActualizarAsistencias")
         self.horizontalLayout_2.addWidget(self.botonActualizarAsistencias)
         self.botonEliminarAsistencia = QtWidgets.QPushButton(self.panelSur_2)
+        self.botonEliminarAsistencia.setStyleSheet("QPushButton {\n"
+"    border-radius: 15px; /* Redondea los bordes del botón */\n"
+"    background-color: #615298; /* Color de fondo en estado base */\n"
+"    color: white; /* Color del texto */\n"
+"    padding: 10px 20px; /* Espaciado interno */\n"
+"    border: 2px solid #161d41; /* Borde del botón */\n"
+"}\n"
+"\n"
+"QPushButton:hover {\n"
+"    background-color: #9769bb; /* Color de fondo cuando el mouse está encima */\n"
+"    border: 2px solid #5266d3; /* Color del borde cuando el mouse está encima */\n"
+"}\n"
+"\n"
+"QPushButton:pressed {\n"
+"    background-color: #36356c; /* Color de fondo cuando el botón está presionado */\n"
+"    border: 2px solid #161d41; /* Color del borde cuando el botón está presionado */\n"
+"}")
         self.botonEliminarAsistencia.setObjectName("botonEliminarAsistencia")
         self.horizontalLayout_2.addWidget(self.botonEliminarAsistencia)
         self.gridLayout_2.addWidget(self.panelSur_2, 1, 0, 1, 1)
         self.tabVistas.addTab(self.vistaAsistencias, "")
-        self.gridLayout.addWidget(self.tabVistas, 0, 0, 1, 1)
+        self.gridLayout.addWidget(self.tabVistas, 1, 0, 1, 2)
+        spacerItem = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.gridLayout.addItem(spacerItem, 0, 0, 1, 1)
 
         self.retranslateUi(VentanaAdministrador)
         self.tabVistas.setCurrentIndex(0)
@@ -110,9 +327,12 @@ class Ui_VentanaAdministrador(object):
     def retranslateUi(self, VentanaAdministrador):
         _translate = QtCore.QCoreApplication.translate
         VentanaAdministrador.setWindowTitle(_translate("VentanaAdministrador", "JEB - Panel de administracion"))
-        self.campoBusqueda.setPlaceholderText(_translate("VentanaAdministrador", "Nombre del empleado"))
         self.botonBuscar.setText(_translate("VentanaAdministrador", "Buscar"))
+        self.botonAgregarEmpleado.setText(_translate("VentanaAdministrador", "Nuevo empleado"))
+        self.botonEditarEmpleado.setText(_translate("VentanaAdministrador", "Editar empleado"))
+        self.botonEliminarEmpleado.setText(_translate("VentanaAdministrador", "Eliminar empleado"))
         self.etiquetaBuscar.setText(_translate("VentanaAdministrador", "Buscar por nombre:"))
+        self.campoBusqueda.setPlaceholderText(_translate("VentanaAdministrador", "Nombre del empleado"))
         item = self.tablaEmpleados.horizontalHeaderItem(0)
         item.setText(_translate("VentanaAdministrador", "No. de empleado"))
         item = self.tablaEmpleados.horizontalHeaderItem(1)
@@ -121,9 +341,6 @@ class Ui_VentanaAdministrador(object):
         item.setText(_translate("VentanaAdministrador", "Hora de entrada"))
         item = self.tablaEmpleados.horizontalHeaderItem(3)
         item.setText(_translate("VentanaAdministrador", "Hora de salida"))
-        self.botonAgregarEmpleado.setText(_translate("VentanaAdministrador", "Nuevo empleado"))
-        self.botonEditarEmpleado.setText(_translate("VentanaAdministrador", "Editar empleado"))
-        self.botonEliminarEmpleado.setText(_translate("VentanaAdministrador", "Eliminar empleado"))
         self.tabVistas.setTabText(self.tabVistas.indexOf(self.vistaEmpleados), _translate("VentanaAdministrador", "Empleados"))
         item = self.tablaAsistencias.horizontalHeaderItem(0)
         item.setText(_translate("VentanaAdministrador", "No. de Empleado"))

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>339</width>
-    <height>300</height>
+    <width>400</width>
+    <height>400</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -27,23 +27,25 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
+    <widget class="QLabel" name="label">
+     <property name="text">
+      <string/>
+     </property>
+     <property name="pixmap">
+      <pixmap>../Logo.png</pixmap>
+     </property>
+     <property name="scaledContents">
+      <bool>true</bool>
+     </property>
+     <property name="wordWrap">
+      <bool>false</bool>
+     </property>
+    </widget>
+   </item>
+   <item>
     <widget class="QWidget" name="panelNorte" native="true">
      <layout class="QGridLayout" name="gridLayout_2">
       <item row="3" column="0">
-       <widget class="QLineEdit" name="campoContrasena">
-        <property name="echoMode">
-         <enum>QLineEdit::Password</enum>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="0">
-       <widget class="QLabel" name="etiquetaUsuario">
-        <property name="text">
-         <string>Usuario:</string>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="0">
        <widget class="QLabel" name="etiquetaContrasena">
         <property name="text">
          <string>Contraseña:</string>
@@ -51,7 +53,38 @@
        </widget>
       </item>
       <item row="1" column="0">
-       <widget class="QLineEdit" name="campoUsuario"/>
+       <widget class="QLabel" name="etiquetaUsuario">
+        <property name="text">
+         <string>Usuario:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="0">
+       <widget class="QLineEdit" name="campoContrasena">
+        <property name="styleSheet">
+         <string notr="true">QLineEdit{
+	border-radius: 10px;
+	padding: 8px 20px;
+	border: 2px solid #161d41;
+}
+</string>
+        </property>
+        <property name="echoMode">
+         <enum>QLineEdit::Password</enum>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="0">
+       <widget class="QLineEdit" name="campoUsuario">
+        <property name="styleSheet">
+         <string notr="true">QLineEdit{
+	border-radius: 10px;
+	padding: 8px 20px;
+	border: 2px solid #161d41;
+}
+</string>
+        </property>
+       </widget>
       </item>
      </layout>
     </widget>
@@ -61,6 +94,25 @@
      <layout class="QGridLayout" name="gridLayout_3">
       <item row="1" column="1">
        <widget class="QPushButton" name="botonIniciarSesion">
+        <property name="styleSheet">
+         <string notr="true">QPushButton {
+    border-radius: 15px; /* Redondea los bordes del botón */
+    background-color: #615298; /* Color de fondo en estado base */
+    color: white; /* Color del texto */
+    padding: 10px 20px; /* Espaciado interno */
+    border: 2px solid #161d41; /* Borde del botón */
+}
+
+QPushButton:hover {
+    background-color: #9769bb; /* Color de fondo cuando el mouse está encima */
+    border: 2px solid #5266d3; /* Color del borde cuando el mouse está encima */
+}
+
+QPushButton:pressed {
+    background-color: #36356c; /* Color de fondo cuando el botón está presionado */
+    border: 2px solid #161d41; /* Color del borde cuando el botón está presionado */
+}</string>
+        </property>
         <property name="text">
          <string>Iniciar sesión</string>
         </property>
